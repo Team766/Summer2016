@@ -7,10 +7,28 @@ import com.team766.robot.Constants;
 
 public class Scheduler implements Runnable{
 	
+	private static Scheduler instance;
+	
 	private ArrayBlockingQueue<Actor> actors = new ArrayBlockingQueue<Actor>(Constants.ACTOR_COUNT);
 	private LinkedBlockingQueue<Message> messages = new LinkedBlockingQueue<Message>();
 	
-	public Scheduler(){
+	public enum GameState{
+		Teleop,
+		Disabled,
+		Test,
+		Auton
+	}
+	
+	public GameState gameState = GameState.Disabled;
+	
+	public static Scheduler getInstance(){
+		if(instance == null)
+			instance = new Scheduler();
+		
+		return instance;
+	}
+	
+	private Scheduler(){
 	}
 	
 	public void add(Actor act){
