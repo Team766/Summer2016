@@ -16,13 +16,18 @@ public class Scheduler implements Runnable{
 	public void add(Actor act){
 		try {
 			actors.put(act);
+			act.init();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			System.out.println("Scheduler:  Failed to add actor- " + act.toString());
 		}
 	}
 	
-	public void remove(Actor act){
+	public void remove(Actor actor){
+		for(Actor act: actors){
+			if(act.toString().equals(actor.toString()))
+				actors.remove(act);
+		}
 	}
 	
 	public void run(){
@@ -42,6 +47,12 @@ public class Scheduler implements Runnable{
 					}
 				}
 			}
+			
+			//Update loops
+			for(Actor act : actors){
+				act.run();
+			}
+			
 		}
 	}
 }

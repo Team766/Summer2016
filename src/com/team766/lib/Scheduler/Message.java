@@ -1,5 +1,20 @@
 package com.team766.lib.Scheduler;
 
-public interface Message {
-
+public abstract class Message {
+	
+	public enum Type{
+		SENSOR_VALUE,
+		MECH_STATE,
+		SETPOINTS,
+		MOTOR_COMMAND,
+		WORLD_STATE
+	};
+	
+	public Type messageType;
+	
+	public Type getType(){
+		return messageType;
+	}
+	
+	public abstract String toString();
 }
