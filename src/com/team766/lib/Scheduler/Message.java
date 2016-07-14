@@ -7,7 +7,8 @@ public abstract class Message {
 		MECH_STATE,
 		SETPOINTS,
 		MOTOR_COMMAND,
-		WORLD_STATE
+		WORLD_STATE,
+		JOYSTICK
 	};
 	
 	public Type messageType;

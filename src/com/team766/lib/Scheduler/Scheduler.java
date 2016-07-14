@@ -34,18 +34,15 @@ public class Scheduler implements Runnable{
 		while(true){
 			//Receive messages from all actors
 			for(Actor act : actors){
-				messages.add(act.postMessage());
+				for(Message m : act.postMessage())
+					messages.add(m);
 			}
 			
 			//Distribute messages to actors
-			for(int i = messages.size(); i > 0; i--){
-				for(Actor act : actors){
-					try {
-						act.readMessage(messages.take());
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+			Message[] out = messages.toArray(new Message[0]);
+			messages.clear();
+			for(Actor act : actors){
+				act.readMessage(out);
 			}
 			
 			//Update loops
