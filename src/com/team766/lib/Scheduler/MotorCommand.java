@@ -3,9 +3,14 @@ package com.team766.lib.Scheduler;
 public class MotorCommand extends Message{
 
 	private double value;
-	private String motor;
+	private Motor motor;
 	
-	public MotorCommand(double in, String mot){
+	public enum Motor{
+		rightDrive,
+		leftDrive
+	}
+	
+	public MotorCommand(double in, Motor mot){
 		messageType = Type.MOTOR_COMMAND;
 		value = in;
 		motor = mot;
@@ -15,7 +20,7 @@ public class MotorCommand extends Message{
 		return value;
 	}
 	
-	public String getMotor(){
+	public Motor getMotor(){
 		return motor;
 	}
 	

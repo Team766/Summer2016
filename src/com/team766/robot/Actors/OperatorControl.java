@@ -16,7 +16,7 @@ public class OperatorControl extends Actor {
 	}
 
 	public Message postMessage() {
-		return new MotorCommand(1.0, "rightDrive");
+		return new MotorCommand(1.0, MotorCommand.Motor.leftDrive);
 	}
 
 	public String toString() {
