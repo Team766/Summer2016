@@ -6,12 +6,13 @@ import interfaces.RobotProvider;
 import com.team766.lib.Scheduler.Actor;
 import com.team766.lib.Scheduler.Message;
 import com.team766.lib.Scheduler.MotorCommand;
+import com.team766.robot.HardwareProvider;
 
 public class OperatorControl extends Actor {
 	
-	JoystickReader jLeft = RobotProvider.instance.getLeftJoystick();
-	JoystickReader jRight = RobotProvider.instance.getRightJoystick();
-	JoystickReader jBox = RobotProvider.instance.getBoxJoystick();
+	JoystickReader jLeft = HardwareProvider.getInstance().getLeftJoystick();
+	JoystickReader jRight = HardwareProvider.getInstance().getRightJoystick();
+	JoystickReader jBox = HardwareProvider.getInstance().getBoxJoystick();
 	
 	public void init() {
 		acceptableMessages = new Message.Type[]{Message.Type.JOYSTICK};

@@ -1,16 +1,16 @@
 package com.team766.robot.Actors;
 
-import interfaces.RobotProvider;
 import interfaces.SpeedController;
 
 import com.team766.lib.Scheduler.Actor;
 import com.team766.lib.Scheduler.Message;
 import com.team766.lib.Scheduler.MotorCommand;
+import com.team766.robot.HardwareProvider;
 
 public class Drive extends Actor{
 
-	SpeedController leftMotor = RobotProvider.instance.getLeftDrive();
-	SpeedController rightMotor = RobotProvider.instance.getRightDrive();
+	SpeedController leftMotor = HardwareProvider.getInstance().getLeftDrive();
+	SpeedController rightMotor = HardwareProvider.getInstance().getRightDrive();
 	
 	MotorCommand[] motors;
 	
