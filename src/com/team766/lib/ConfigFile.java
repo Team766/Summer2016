@@ -10,47 +10,40 @@ import interfaces.ConfigFileReader;
  */
 
 public class ConfigFile {
-	private static ConfigFile instance;
 	
-	public static ConfigFile getInstance(){
-		if(instance == null)
-			instance = new ConfigFile();
-		return instance;
-	}
-	
-	public int getLeftMotor(){
+	public static int getLeftMotor(){
 		return ConfigFileReader.getInstance().getPort("leftMotor");
 	}
 	
-	public int getRightMotor(){
+	public static int getRightMotor(){
 		return ConfigFileReader.getInstance().getPort("rightMotor");
 	}
 	
-	public int getLeftEncoder(){
-		return ConfigFileReader.getInstance().getPort("leftEncoder");
+	public static int[] getLeftEncoder(){
+		return ConfigFileReader.getInstance().getPorts("leftEncoder");
 	}
 	
-	public int getRightEncoder(){
-		return ConfigFileReader.getInstance().getPort("rightEncoder");
+	public static int[] getRightEncoder(){
+		return ConfigFileReader.getInstance().getPorts("rightEncoder");
 	}
 	
-	public int getDriveShifter(){
+	public static int getDriveShifter(){
 		return ConfigFileReader.getInstance().getPort("driveShifter");
 	}
 	
-	public int getGyro(){
+	public static int getGyro(){
 		return ConfigFileReader.getInstance().getPort("gyro");
 	}
 	
-	public int getLeftJoystick(){
+	public static int getLeftJoystick(){
 		return ConfigFileReader.getInstance().getPort("leftJoystick");
 	}
 	
-	public int getRightJoystick(){
+	public static int getRightJoystick(){
 		return ConfigFileReader.getInstance().getPort("rightJoystick");
 	}
 	
-	public int getBoxJoystick(){
+	public static int getBoxJoystick(){
 		return ConfigFileReader.getInstance().getPort("boxJoystick");
 	}
 }

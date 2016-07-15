@@ -21,35 +21,35 @@ public class HardwareProvider {
 	
 	// HAL
 	public SpeedController getLeftDrive(){
-		return RobotProvider.instance.getMotor(ConfigFile.getInstance().getLeftMotor());
+		return RobotProvider.instance.getMotor(ConfigFile.getLeftMotor());
 	}
 	public SpeedController getRightDrive(){
-		return RobotProvider.instance.getMotor(ConfigFile.getInstance().getRightMotor());
+		return RobotProvider.instance.getMotor(ConfigFile.getRightMotor());
 	}
 
 	public EncoderReader getLeftEncoder(){
-		return RobotProvider.instance.getEncoder(ConfigFile.getInstance().getLeftEncoder());
+		return RobotProvider.instance.getEncoder(ConfigFile.getLeftEncoder()[0], ConfigFile.getLeftEncoder()[1]);
 	}
 	public EncoderReader getRightEncoder(){
-		return RobotProvider.instance.getEncoder(ConfigFile.getInstance().getRightEncoder());
+		return RobotProvider.instance.getEncoder(ConfigFile.getRightEncoder()[0], ConfigFile.getRightEncoder()[1]);
 	}
 
 	public SolenoidController getDriveShifter(){
-		return RobotProvider.instance.getSolenoid(ConfigFile.getInstance().getDriveShifter());
+		return RobotProvider.instance.getSolenoid(ConfigFile.getDriveShifter());
 	}
 
 	public GyroReader getGyro(){
-		return RobotProvider.instance.getGyro(ConfigFile.getInstance().getGyro());
+		return RobotProvider.instance.getGyro(ConfigFile.getGyro());
 	}
 
 	// Operator Devices
 	public JoystickReader getLeftJoystick(){
-		return RobotProvider.instance.getJoystick(ConfigFile.getInstance().getLeftJoystick());
+		return RobotProvider.instance.getJoystick(ConfigFile.getLeftJoystick());
 	}
 	public JoystickReader getRightJoystick(){
-		return RobotProvider.instance.getJoystick(ConfigFile.getInstance().getRightJoystick());
+		return RobotProvider.instance.getJoystick(ConfigFile.getRightJoystick());
 	}
 	public JoystickReader getBoxJoystick(){
-		return RobotProvider.instance.getJoystick(ConfigFile.getInstance().getBoxJoystick());
+		return RobotProvider.instance.getJoystick(ConfigFile.getBoxJoystick());
 	}
 }
