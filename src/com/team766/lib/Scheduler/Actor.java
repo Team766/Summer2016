@@ -9,11 +9,7 @@ public abstract class Actor implements Runnable{
 	
 	public abstract void init();
 	
-	public abstract void readMessage(Message[] m);
-	
-	public abstract Message[] postMessage();
-	
-	public Message[] relevantMessage(Message[] m){
+	public Message[] filterMessage(Message[] m){
 		boolean safe;
 		ArrayList<Message> messages = new ArrayList<Message>(Arrays.asList(m));
 		for(int i = messages.size(); i >= 0; i--){
@@ -28,6 +24,14 @@ public abstract class Actor implements Runnable{
 				messages.remove(i);
 		}
 		return messages.toArray(new Message[0]);
+	}
+	
+	public void sendMessage(Message mess){
+		Scheduler.getInstance().sendMessage(mess);
+	}
+	
+	public Message readMessage(){
+		return Scheduler.getInstance().readMessage(toString());
 	}
 	
 	public abstract String toString();

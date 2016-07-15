@@ -14,34 +14,51 @@ import com.team766.robot.Actors.OperatorControl;
  */
 public class Robot implements MyRobot {
 
+	public enum GameState{
+		Teleop,
+		Disabled,
+		Test,
+		Auton
+	}
+	
+	public static GameState gameState = GameState.Disabled;
+
+    public static GameState getState() {
+        return gameState;
+    }
+
+    public static void setState(GameState state) {
+        gameState = state;
+    }
+	
 	public void robotInit() {
 		Scheduler.getInstance().add(new Drive());
 		Scheduler.getInstance().add(new OperatorControl());
     }
     
     public void autonomousInit() {
-    	Scheduler.getInstance().gameState = Scheduler.GameState.Auton;
+    	setState(GameState.Auton);
     }
 
     public void autonomousPeriodic() {
     }
     
     public void teleopInit() {
-    	Scheduler.getInstance().gameState = Scheduler.GameState.Teleop;
+    	setState(GameState.Teleop);
 	}
 
     public void teleopPeriodic() {
     }
     
     public void disabledInit() {
-    	Scheduler.getInstance().gameState = Scheduler.GameState.Disabled;
+    	setState(GameState.Disabled);
 	}
     
     public void disabledPeriodic() {
 	}
     
 	public void testInit() {
-		Scheduler.getInstance().gameState = Scheduler.GameState.Test;
+		setState(GameState.Test);
 	}
 	
 	public void testPeriodic() {
