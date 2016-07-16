@@ -22,7 +22,7 @@ public class Drive extends Actor{
 		while(enabled){
 			Message mess = readMessage();
 			
-			if(mess.getClass().equals(MotorCommand.class)){
+			if(mess instanceof MotorCommand){
 				MotorCommand motor = (MotorCommand)mess;
 				switch(motor.getMotor()){
 					case leftDrive:
