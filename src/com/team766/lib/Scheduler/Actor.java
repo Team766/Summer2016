@@ -30,6 +30,19 @@ public abstract class Actor implements Runnable{
 		inbox = new LinkedBlockingQueue<Message>(Arrays.asList(messages.toArray(new Message[0])));
 	}
 	
+	public void tryAddingMessage(Message m){
+		for(Class<? extends Message> message : acceptableMessages){
+			if(m.getClass().equals(message)){
+				try {
+					inbox.put(m);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				return;
+			}
+		}
+	}
+	
 	public void sendMessage(Message mess){
 		try {
 			Scheduler.getInstance().sendMessage(mess);

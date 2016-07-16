@@ -22,13 +22,13 @@ public class Scheduler {
 		actors = new ArrayList<Actor>();
 	}
 	
-	public void add(Actor act){
+	public synchronized void add(Actor act){
 		actors.add(act);
 		act.init();
 		new Thread(act).start();
 	}
 	
-	public void remove(Actor actor){
+	public synchronized void remove(Actor actor){
 		actor.enabled = false;
 		
 		//Remove ALL instances of it from list
@@ -38,7 +38,7 @@ public class Scheduler {
 		}
 	}
 	
-	public void sendMessage(Message newMessage) throws InterruptedException{
+	public synchronized void sendMessage(Message newMessage) throws InterruptedException{
 		//Add messages to all Actor's queues
 		for (Actor act : actors) {
 			act.getInbox().put(newMessage);
