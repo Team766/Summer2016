@@ -15,39 +15,27 @@ public class Drive extends Actor{
 	MotorCommand[] motors;
 	
 	public void init() {
-		acceptableMessages = new Message.Type[]{Message.Type.MOTOR_COMMAND};
+		acceptableMessages = new Class[]{MotorCommand.class};
 	}
 	
 	public void run() {
-		Message mess = readMessage();
-		
-		switch(mess.getType()){
-		case MOTOR_COMMAND:
-			MotorCommand motor = (MotorCommand)mess;
-			switch(motor.getMotor()){
-				case leftDrive:
-					leftMotor.set(motor.getValue());
-					break;
-				case rightDrive:
-					rightMotor.set(motor.getValue());
-					break;
-				default:
-					System.out.println("Motor not recognized!");
-					break;
+		while(enabled){
+			Message mess = readMessage();
+			
+			if(mess.getClass().equals(MotorCommand.class)){
+				MotorCommand motor = (MotorCommand)mess;
+				switch(motor.getMotor()){
+					case leftDrive:
+						leftMotor.set(motor.getValue());
+						break;
+					case rightDrive:
+						rightMotor.set(motor.getValue());
+						break;
+					default:
+						System.out.println("Motor not recognized!");
+						break;
+				}
 			}
-			break;
-		case JOYSTICK:
-			break;
-		case MECH_STATE:
-			break;
-		case SENSOR_VALUE:
-			break;
-		case SETPOINTS:
-			break;
-		case WORLD_STATE:
-			break;
-		default:
-			break;
 		}
 	}
 

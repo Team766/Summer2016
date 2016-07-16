@@ -3,7 +3,6 @@ package com.team766.robot.Actors;
 import interfaces.JoystickReader;
 
 import com.team766.lib.Scheduler.Actor;
-import com.team766.lib.Scheduler.Message;
 import com.team766.lib.Scheduler.MotorCommand;
 import com.team766.robot.HardwareProvider;
 
@@ -14,12 +13,14 @@ public class OperatorControl extends Actor {
 	JoystickReader jBox = HardwareProvider.getInstance().getBoxJoystick();
 	
 	public void init() {
-		acceptableMessages = new Message.Type[]{Message.Type.JOYSTICK};
+		acceptableMessages = new Class[]{};
 	}
 	
 	public void run() {
-		sendMessage(new MotorCommand(jLeft.getRawAxis(0), MotorCommand.Motor.leftDrive));
-		sendMessage(new MotorCommand(jRight.getRawAxis(0), MotorCommand.Motor.rightDrive));
+		while(enabled){
+			sendMessage(new MotorCommand(jLeft.getRawAxis(0), MotorCommand.Motor.leftDrive));
+			sendMessage(new MotorCommand(jRight.getRawAxis(0), MotorCommand.Motor.rightDrive));
+		}
 	}
 
 	public String toString() {

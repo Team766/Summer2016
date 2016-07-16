@@ -9,7 +9,6 @@ public class Scheduler {
 	
 	private static Scheduler instance;
 	
-	private HashMap<String, LinkedBlockingQueue<Message>> mailbox;
 	private ArrayList<Actor> actors;
 	
 	public static Scheduler getInstance(){
@@ -20,41 +19,31 @@ public class Scheduler {
 	}
 	
 	private Scheduler(){
-		mailbox = new HashMap<String, LinkedBlockingQueue<Message>>();
 		actors = new ArrayList<Actor>();
 	}
 	
 	public void add(Actor act){
 		actors.add(act);
-		mailbox.put(act.toString(), new LinkedBlockingQueue<Message>());
 		act.init();
 		new Thread(act).start();
 	}
 	
 	public void remove(Actor actor){
-		mailbox.remove(actor.toString());
-	}
-	
-	public void sendMessage(Message newMessage){
-		//Add messages to all Actor's queues
-		for (LinkedBlockingQueue<Message> queue : mailbox.values()) {
-		    queue.add(newMessage);
-		}
+		actor.enabled = false;
 		
-		//Filter unnecessary messages from queues 
-		for(Actor actor : actors){
-			mailbox.put(actor.toString(), new LinkedBlockingQueue<Message>(Arrays.asList(actor.filterMessage(mailbox.get(actor.toString()).toArray(new Message[0])))));
+		//Remove ALL instances of it from list
+		for(int i = actors.size() - 1; i >= 0; i--){
+			if(actors.get(i).toString().equals(actor.toString()))
+				actors.remove(i);
 		}
 	}
 	
-	public Message readMessage(String id){
-		try {
-			return mailbox.get(id).take();
-		} catch (InterruptedException e) {
-			System.err.println("Failed to readMessage: " + id);
-			e.printStackTrace();
+	public void sendMessage(Message newMessage) throws InterruptedException{
+		//Add messages to all Actor's queues
+		for (Actor act : actors) {
+			act.getInbox().put(newMessage);
+			act.filterMessage();
 		}
-		return null;
 	}
 	
 }

@@ -11,7 +11,6 @@ public class MotorCommand extends Message{
 	}
 	
 	public MotorCommand(double in, Motor mot){
-		messageType = Type.MOTOR_COMMAND;
 		value = in;
 		motor = mot;
 	}
