@@ -34,6 +34,7 @@ public class DriveDistanceTest extends RobotTestCase{
 			System.out.println("Failed to send DriveTo() in Test");
 			e.printStackTrace();
 		}
+		
 		//Wait for message to be processed
 		Drive drive = (Drive)Scheduler.getInstance().getActor(Drive.class);
 		while(drive.remainingMessages() > 0){
@@ -43,10 +44,8 @@ public class DriveDistanceTest extends RobotTestCase{
 		assertTrue(instance.getMotor(ConfigFile.getLeftMotor()).get() > 0); 
 		assertTrue(instance.getMotor(ConfigFile.getRightMotor()).get() > 0); 
 		
-		((Encoder)(HardwareProvider.getInstance().getLeftEncoder())).set((int)(distance / Constants.wheel_circumference * Constants.counts_per_rev));
-		((Encoder)(HardwareProvider.getInstance().getRightEncoder())).set((int)(distance / Constants.wheel_circumference * Constants.counts_per_rev));
-		
-	
+		((Encoder)(instance.getEncoder(ConfigFile.getLeftEncoder()[0], ConfigFile.getLeftEncoder()[1]))).set((int)(distance / Constants.wheel_circumference * Constants.counts_per_rev));
+		((Encoder)(instance.getEncoder(ConfigFile.getRightEncoder()[0], ConfigFile.getRightEncoder()[1]))).set((int)(distance / Constants.wheel_circumference * Constants.counts_per_rev));
 		
 		assertTrue(instance.getMotor(ConfigFile.getLeftMotor()).get() == 0); 
 		assertTrue(instance.getMotor(ConfigFile.getRightMotor()).get() == 0); 
