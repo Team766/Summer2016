@@ -33,7 +33,6 @@ public class Robot implements MyRobot {
 	
 	public void robotInit() {
 		Scheduler.getInstance().add(new Drive());
-		Scheduler.getInstance().add(new OperatorControl());
     }
     
     public void autonomousInit() {
@@ -45,6 +44,7 @@ public class Robot implements MyRobot {
     
     public void teleopInit() {
     	setState(GameState.Teleop);
+		Scheduler.getInstance().add(new OperatorControl());
 	}
 
     public void teleopPeriodic() {
