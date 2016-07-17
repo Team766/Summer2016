@@ -29,9 +29,9 @@ public class OperatorControl extends Actor {
 		}
 		Scheduler.getInstance().remove(this);
 	}
-
-	public String toString() {
-		return "Actor:\tOperatorControl";
-	}
 	
+	public String toString(){
+		return "Actor:\tOperator Control";
+	}
+
 }

@@ -10,6 +10,7 @@ import com.team766.lib.Scheduler.DriveTo;
 import com.team766.lib.Scheduler.Scheduler;
 import com.team766.robot.Constants;
 import com.team766.robot.HardwareProvider;
+import com.team766.robot.Actors.Drive;
 
 public class DriveDistanceTest extends RobotTestCase{
 	
@@ -33,14 +34,21 @@ public class DriveDistanceTest extends RobotTestCase{
 			System.out.println("Failed to send DriveTo() in Test");
 			e.printStackTrace();
 		}
+		//Wait for message to be processed
+		Drive drive = (Drive)Scheduler.getInstance().getActor(Drive.class);
+		while(drive.remainingMessages() > 0){
+			//WAITING TO COMPLETE MESSAGES!!
+		}
 		
-		assert(instance.getMotor(ConfigFile.getLeftMotor()).get() > 0); 
-		assert(instance.getMotor(ConfigFile.getRightMotor()).get() > 0); 
+		assertTrue(instance.getMotor(ConfigFile.getLeftMotor()).get() > 0); 
+		assertTrue(instance.getMotor(ConfigFile.getRightMotor()).get() > 0); 
 		
 		((Encoder)(HardwareProvider.getInstance().getLeftEncoder())).set((int)(distance / Constants.wheel_circumference * Constants.counts_per_rev));
 		((Encoder)(HardwareProvider.getInstance().getRightEncoder())).set((int)(distance / Constants.wheel_circumference * Constants.counts_per_rev));
 		
-		assert(instance.getMotor(ConfigFile.getLeftMotor()).get() == 0); 
-		assert(instance.getMotor(ConfigFile.getRightMotor()).get() == 0); 
+	
+		
+		assertTrue(instance.getMotor(ConfigFile.getLeftMotor()).get() == 0); 
+		assertTrue(instance.getMotor(ConfigFile.getRightMotor()).get() == 0); 
 	}
 }

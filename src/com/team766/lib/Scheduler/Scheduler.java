@@ -46,4 +46,12 @@ public class Scheduler {
 		}
 	}
 	
+	public synchronized Actor getActor(Class<? extends Actor> act){
+		for(Actor actor : actors){
+			if(actor.getClass().getName().equals(act.getName()))
+				return actor;
+		}
+		return null;
+	}
+	
 }

@@ -28,7 +28,6 @@ public class Drive extends Actor{
 	public void run() {
 		while(enabled){
 			Message mess = readMessage();
-			
 			if(mess instanceof MotorCommand){
 				MotorCommand motor = (MotorCommand)mess;
 				switch(motor.getMotor()){
@@ -50,7 +49,7 @@ public class Drive extends Actor{
 				setDrive(0.0);
 			}else if(mess instanceof ChessyDrive){
 				ChessyDrive driver = (ChessyDrive)mess;
-				
+		
 			}
 		}
 	}
@@ -76,5 +75,5 @@ public class Drive extends Actor{
 	public String toString(){
 		return "Actor:\tDrive";
 	}
-
+	
 }

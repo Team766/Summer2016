@@ -66,5 +66,10 @@ public abstract class Actor implements Runnable{
 		return inbox;
 	}
 	
+	public int remainingMessages(){
+		return inbox.size();
+	}
+	
 	public abstract String toString();
+	
 }
