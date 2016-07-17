@@ -45,6 +45,12 @@ public class Drive extends Actor{
 				DriveTo driver = (DriveTo)mess;
 				while(avgDist() < driver.getXDist()){
 					setDrive(0.5);
+					
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 				setDrive(0.0);
 			}else if(mess instanceof ChessyDrive){

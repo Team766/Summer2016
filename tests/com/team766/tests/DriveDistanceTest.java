@@ -1,35 +1,26 @@
 package com.team766.tests;
 
-import java.util.concurrent.Callable;
-
 import org.junit.Test;
 
-import tests.RobotTestCase;
 import tests.Encoder;
+import tests.RobotTestCase;
 
 import com.team766.lib.ConfigFile;
 import com.team766.lib.Scheduler.DriveTo;
 import com.team766.lib.Scheduler.Scheduler;
 import com.team766.robot.Constants;
-import com.team766.robot.HardwareProvider;
-import com.team766.robot.Actors.Drive;
 
 public class DriveDistanceTest extends RobotTestCase{
 	
 	private double distance;
 	
 	protected void setUp() throws Exception {
+		super.setUp();
 		distance = 5;
 	}
 	
 	@Test
 	public void testDriveForward() throws Exception{
-		try {
-			super.setUp();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		
 		try {
 			Scheduler.getInstance().sendMessage(new DriveTo(0, distance, 0));
 		} catch (InterruptedException e) {
