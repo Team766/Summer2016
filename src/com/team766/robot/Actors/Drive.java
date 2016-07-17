@@ -43,7 +43,7 @@ public class Drive extends Actor{
 				}
 			}else if(mess instanceof DriveTo){
 				DriveTo driver = (DriveTo)mess;
-				while(avgDist() <= driver.getXDist()){
+				while(avgDist() < driver.getXDist()){
 					setDrive(0.5);
 				}
 				setDrive(0.0);

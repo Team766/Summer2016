@@ -1,7 +1,5 @@
 package com.team766.lib.Scheduler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class Actor implements Runnable{
@@ -14,33 +12,25 @@ public abstract class Actor implements Runnable{
 	public abstract void init();
 	
 	public void filterMessage(){
-		boolean safe;
-		ArrayList<Message> messages = new ArrayList<Message>(inbox);
-		for(int i = messages.size()-1; i >= 0; i--){
-			safe = false;
-			for(Class<? extends Message> message : acceptableMessages){
-				if(messages.get(i).getClass().equals(message)){
-					safe = true;
-					break;
-				}
-			}
-			if(!safe)
-				messages.remove(i);
-		}
-		inbox = new LinkedBlockingQueue<Message>(Arrays.asList(messages.toArray(new Message[0])));
 	}
 	
+	protected boolean keepMessage(Message m){
+	    for(Class<? extends Message> message : acceptableMessages){
+	        if(m.getClass().equals(message)){
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+
 	public void tryAddingMessage(Message m){
-		for(Class<? extends Message> message : acceptableMessages){
-			if(m.getClass().equals(message)){
-				try {
-					inbox.put(m);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				return;
-			}
-		}
+	    if(keepMessage(m)){
+	        try {
+	            inbox.put(m);
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	    }
 	}
 	
 	public void sendMessage(Message mess){
@@ -66,9 +56,6 @@ public abstract class Actor implements Runnable{
 		return inbox;
 	}
 	
-	public int remainingMessages(){
-		return inbox.size();
-	}
 	
 	public abstract String toString();
 	

@@ -1,5 +1,7 @@
 package com.team766.tests;
 
+import java.util.concurrent.Callable;
+
 import org.junit.Test;
 
 import tests.RobotTestCase;
@@ -21,7 +23,7 @@ public class DriveDistanceTest extends RobotTestCase{
 	}
 	
 	@Test
-	public void testDriveForward(){
+	public void testDriveForward() throws Exception{
 		try {
 			super.setUp();
 		} catch (Exception e1) {
@@ -35,19 +37,18 @@ public class DriveDistanceTest extends RobotTestCase{
 			e.printStackTrace();
 		}
 		
-		//Wait for message to be processed
-		Drive drive = (Drive)Scheduler.getInstance().getActor(Drive.class);
-		while(drive.remainingMessages() > 0){
-			//WAITING TO COMPLETE MESSAGES!!
-		}
-		
+		wait(2, () -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() > 0;});
 		assertTrue(instance.getMotor(ConfigFile.getLeftMotor()).get() > 0); 
+		wait(2, () -> {return instance.getMotor(ConfigFile.getRightMotor()).get() > 0;});
 		assertTrue(instance.getMotor(ConfigFile.getRightMotor()).get() > 0); 
 		
-		((Encoder)(instance.getEncoder(ConfigFile.getLeftEncoder()[0], ConfigFile.getLeftEncoder()[1]))).set((int)(distance / Constants.wheel_circumference * Constants.counts_per_rev));
-		((Encoder)(instance.getEncoder(ConfigFile.getRightEncoder()[0], ConfigFile.getRightEncoder()[1]))).set((int)(distance / Constants.wheel_circumference * Constants.counts_per_rev));
 		
+		((Encoder)(instance.getEncoder(ConfigFile.getLeftEncoder()[0], ConfigFile.getLeftEncoder()[1]))).set((int)Math.ceil(distance / Constants.wheel_circumference * Constants.counts_per_rev));
+		((Encoder)(instance.getEncoder(ConfigFile.getRightEncoder()[0], ConfigFile.getRightEncoder()[1]))).set((int)Math.ceil(distance / Constants.wheel_circumference * Constants.counts_per_rev));
+		
+		wait(3, () -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() == 0;});
 		assertTrue(instance.getMotor(ConfigFile.getLeftMotor()).get() == 0); 
+		wait(3, () -> {return instance.getMotor(ConfigFile.getRightMotor()).get() == 0;});
 		assertTrue(instance.getMotor(ConfigFile.getRightMotor()).get() == 0); 
 	}
 }

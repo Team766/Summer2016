@@ -41,8 +41,7 @@ public class Scheduler {
 	public synchronized void sendMessage(Message newMessage) throws InterruptedException{
 		//Add messages to all Actor's queues
 		for (Actor act : actors) {
-			act.getInbox().put(newMessage);
-			act.filterMessage();
+			act.tryAddingMessage(newMessage);
 		}
 	}
 	
