@@ -1,5 +1,7 @@
 package com.team766.lib.Scheduler;
 
+import lib.Message;
+
 public class MotorCommand extends Message{
 
 	private double value;

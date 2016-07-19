@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ DriveDistanceTest.class })
+@SuiteClasses({ DriveDistanceTest.class, CheesyDriveTest.class })
 public class AllTests {
 
 }

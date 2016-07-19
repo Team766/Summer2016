@@ -2,8 +2,8 @@
 package com.team766.robot;
 
 import interfaces.MyRobot;
+import lib.Scheduler;
 
-import com.team766.lib.Scheduler.Scheduler;
 import com.team766.robot.Actors.Drive;
 import com.team766.robot.Actors.OperatorControl;
 

@@ -1,11 +1,13 @@
 package com.team766.lib.Scheduler;
 
-public class ChessyDrive extends Message{
+import lib.Message;
+
+public class CheesyDrive extends Message{
 	private boolean quickTurn;
 	private double accel;
 	private double steer;
 	
-	public ChessyDrive(boolean quickTurn, double accel, double steer){
+	public CheesyDrive(boolean quickTurn, double accel, double steer){
 		this.quickTurn = quickTurn;
 		this.accel = accel;
 		this.steer = steer;
