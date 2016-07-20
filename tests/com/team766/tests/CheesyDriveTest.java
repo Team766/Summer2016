@@ -26,18 +26,18 @@ public class CheesyDriveTest extends RobotTestCase {
 		
 		//Spin full speed right
 		Scheduler.getInstance().sendMessage(new CheesyDrive(false, 1, 1));
-		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() == 1;}, 2);
+		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() >= 1;}, 2);
 		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getRightMotor()).get() == 0;}, 2);
 		
 		//Spin full speed left
 		Scheduler.getInstance().sendMessage(new CheesyDrive(false, 1, -1));
 		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() == 0;}, 2);
-		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getRightMotor()).get() == 1;}, 2);
+		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getRightMotor()).get() >= 1;}, 2);
 		
 		//Full speed forward
 		Scheduler.getInstance().sendMessage(new CheesyDrive(false, 1, 0));
-		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() == 1;}, 2);
-		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getRightMotor()).get() == 1;}, 2);
+		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() >= 1;}, 2);
+		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getRightMotor()).get() >= 1;}, 2);
 		
 		//Full speed backward
 		Scheduler.getInstance().sendMessage(new CheesyDrive(false, -1, 0));
@@ -68,11 +68,11 @@ public class CheesyDriveTest extends RobotTestCase {
 	public void testQuickTurn() throws Exception {
 		Scheduler.getInstance().sendMessage(new CheesyDrive(true, 0.5, 1));
 		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() == 1;}, 2);
-		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getRightMotor()).get() == 1;}, 2);
+		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getRightMotor()).get() == -1;}, 2);
 		
 		Scheduler.getInstance().sendMessage(new CheesyDrive(true, -0.5, -1));
 		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() == -1;}, 2);
-		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getRightMotor()).get() == -1;}, 2);
+		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getRightMotor()).get() == 1;}, 2);
 		
 		Scheduler.getInstance().sendMessage(new CheesyDrive(true, 0, 0.5));
 		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() == 0.5;}, 2);

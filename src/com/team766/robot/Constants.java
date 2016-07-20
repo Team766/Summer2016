@@ -17,7 +17,7 @@ public class Constants {
 	public static final int accelAxis = 0;
 	
 	//Drive PID
-	public static final double k_angularP = 1/maxAngularVelocity;
+	public static final double k_angularP =	1/maxAngularVelocity;
 	public static final double k_angularI = 0;
 	public static final double k_angularD = 0;
 	public static final double k_angularThresh = 1;

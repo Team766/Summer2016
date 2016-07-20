@@ -8,6 +8,7 @@ import lib.Message;
 import lib.PIDController;
 
 import com.team766.lib.Scheduler.CheesyDrive;
+import com.team766.lib.Scheduler.DriveDistance;
 import com.team766.lib.Scheduler.DriveTo;
 import com.team766.lib.Scheduler.MotorCommand;
 import com.team766.robot.Constants;
@@ -24,22 +25,30 @@ public class Drive extends Actor{
 	GyroReader gyro = HardwareProvider.getInstance().getGyro();
 	
 	PIDController angularVelocity = new PIDController(Constants.k_angularP, Constants.k_angularI, Constants.k_angularD, Constants.k_angularThresh);
-	PIDController linearVelocity = new PIDController(Constants.k_angularP, Constants.k_angularI, Constants.k_angularD, Constants.k_angularThresh);
+	PIDController linearVelocity = new PIDController(Constants.k_linearP, Constants.k_linearI, Constants.k_linearD, Constants.k_linearThresh);
 	
-	private Message currentMessage;
+	PIDController anglePID = new PIDController(Constants.k_angularP, Constants.k_angularI, Constants.k_angularD, Constants.k_angularThresh);
+	PIDController distancePID = new PIDController(Constants.k_linearP, Constants.k_linearI, Constants.k_linearD, Constants.k_linearThresh);
+	private boolean doneTurning;
 	
+	Message currentMessage;
 	MotorCommand[] motors;
 	
 	public void init() {
-		acceptableMessages = new Class[]{MotorCommand.class, DriveTo.class, CheesyDrive.class};
+		acceptableMessages = new Class[]{MotorCommand.class, DriveTo.class, CheesyDrive.class, DriveDistance.class};
+		doneTurning = false;
 	}
 	
 	public void run() {
 		while(enabled){
 			
 			//Check for new messages
-			if(newMessage())
+			if(newMessage()){
 				currentMessage = readMessage();
+				
+				//Reset Control loops
+				resetControlLoops();
+			}
 			
 			if(currentMessage instanceof MotorCommand){
 				MotorCommand motor = (MotorCommand)currentMessage;
@@ -61,14 +70,45 @@ public class Drive extends Actor{
 					setDrive(0.5);
 				}else
 					setDrive(0.0);
+			}else if(currentMessage instanceof DriveDistance){
+				DriveDistance driver = (DriveDistance)currentMessage;
+				
+				if(!doneTurning){
+					anglePID.setSetpoint(driver.getAngle());
+					
+					anglePID.calculate(gyro.getAngle(), true);
+
+					leftMotor.set(anglePID.getOutput());
+					rightMotor.set(-anglePID.getOutput());
+					
+					if(anglePID.isDone()){
+						doneTurning = true;
+						anglePID.reset();
+					}
+				}else{
+					anglePID.setSetpoint(0);
+					distancePID.setSetpoint(driver.getDistance());
+					
+					distancePID.calculate(avgDist(), true);
+					anglePID.calculate(avgDist(), true);
+					
+					//Drive straight
+					leftMotor.set(distancePID.getOutput() + anglePID.getOutput());
+					rightMotor.set(distancePID.getOutput() - anglePID.getOutput());
+					
+					if(distancePID.isDone()){
+						setDrive(0.0);
+					}
+				}
 			}else if(currentMessage instanceof CheesyDrive){
 				CheesyDrive driver = (CheesyDrive)currentMessage;
-				angularVelocity.setSetpoint(driver.getAngularVelocity());
-				linearVelocity.setSetpoint(driver.getLinearVelocity());
+				angularVelocity.setSetpoint(driver.getAngularVelocity() * (Constants.maxAngularVelocity));
+				linearVelocity.setSetpoint(driver.getLinearVelocity() * (Constants.maxLinearVelocity));
 				
 				angularVelocity.calculate(gyro.getRate(), true);
 				linearVelocity.calculate(avgLinearRate(), true);
-				System.out.println("Lin:" + linearVelocity.getOutput() + "\t" + angularVelocity.getOutput());
+
+				
 				if(!driver.getQuickTurn()){
 					leftMotor.set(linearVelocity.getOutput() + angularVelocity.getOutput());
 					rightMotor.set(linearVelocity.getOutput() - angularVelocity.getOutput());
@@ -110,6 +150,12 @@ public class Drive extends Actor{
 	
 	public String toString(){
 		return "Actor:\tDrive";
+	}
+	
+	private void resetControlLoops(){
+		angularVelocity.reset();
+		linearVelocity.reset();
+		doneTurning = false;
 	}
 	
 }
