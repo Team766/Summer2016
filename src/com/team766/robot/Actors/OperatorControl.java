@@ -4,7 +4,7 @@ import interfaces.JoystickReader;
 import lib.Actor;
 import lib.Scheduler;
 
-import com.team766.lib.Scheduler.CheesyDrive;
+import com.team766.lib.Messages.CheesyDrive;
 import com.team766.robot.Constants;
 import com.team766.robot.HardwareProvider;
 import com.team766.robot.Robot;

@@ -2,6 +2,7 @@ package com.team766.robot;
 
 import com.team766.lib.ConfigFile;
 
+import interfaces.CameraReader;
 import interfaces.EncoderReader;
 import interfaces.GyroReader;
 import interfaces.JoystickReader;
@@ -40,6 +41,14 @@ public class HardwareProvider {
 
 	public GyroReader getGyro(){
 		return RobotProvider.instance.getGyro(ConfigFile.getGyro());
+	}
+	
+	public CameraReader getAxisCamera(){
+		return RobotProvider.instance.getCamera(ConfigFile.getAxisCamera()[0], ConfigFile.getAxisCamera()[1]);
+	}
+	
+	public CameraReader getUSBCamera(){
+		return RobotProvider.instance.getCamera(ConfigFile.getUSBCamera()[0], ConfigFile.getUSBCamera()[1]);
 	}
 
 	// Operator Devices

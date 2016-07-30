@@ -7,7 +7,7 @@ import org.junit.Test;
 import tests.RobotTestCase;
 
 import com.team766.lib.ConfigFile;
-import com.team766.lib.Scheduler.CheesyDrive;
+import com.team766.lib.Messages.CheesyDrive;
 
 public class CheesyDriveTest extends RobotTestCase {
 

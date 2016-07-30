@@ -7,10 +7,10 @@ import lib.Actor;
 import lib.Message;
 import lib.PIDController;
 
-import com.team766.lib.Scheduler.CheesyDrive;
-import com.team766.lib.Scheduler.DriveDistance;
-import com.team766.lib.Scheduler.DriveTo;
-import com.team766.lib.Scheduler.MotorCommand;
+import com.team766.lib.Messages.CheesyDrive;
+import com.team766.lib.Messages.DriveDistance;
+import com.team766.lib.Messages.DriveTo;
+import com.team766.lib.Messages.MotorCommand;
 import com.team766.robot.Constants;
 import com.team766.robot.HardwareProvider;
 

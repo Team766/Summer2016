@@ -9,8 +9,8 @@ import tests.Gyro;
 import tests.RobotTestCase;
 
 import com.team766.lib.ConfigFile;
-import com.team766.lib.Scheduler.DriveDistance;
-import com.team766.lib.Scheduler.DriveTo;
+import com.team766.lib.Messages.DriveDistance;
+import com.team766.lib.Messages.DriveTo;
 import com.team766.robot.Constants;
 
 public class DriveDistanceTest extends RobotTestCase{

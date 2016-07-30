@@ -35,6 +35,14 @@ public class ConfigFile {
 		return ConfigFileReader.getInstance().getPort("gyro");
 	}
 	
+	public static String[] getAxisCamera(){
+		return ConfigFileReader.getInstance().getString("axisCamera");
+	}
+	
+	public static String[] getUSBCamera(){
+		return ConfigFileReader.getInstance().getString("usbCamera");
+	}
+	
 	public static int getLeftJoystick(){
 		return ConfigFileReader.getInstance().getPort("leftJoystick");
 	}
