@@ -1,4 +1,4 @@
-package com.team766.lib.Scheduler;
+package com.team766.lib.Messages;
 
 import lib.Message;
 
@@ -23,5 +23,9 @@ public class CheesyDrive extends Message{
 	
 	public boolean getQuickTurn(){
 		return quickTurn;
+	}
+	
+	public String toString() {
+		return "Message:\tCheesy Drive";
 	}
 }

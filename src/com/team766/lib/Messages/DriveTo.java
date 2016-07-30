@@ -1,4 +1,4 @@
-package com.team766.lib.Scheduler;
+package com.team766.lib.Messages;
 
 import lib.Message;
 

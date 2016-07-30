@@ -1,4 +1,4 @@
-package com.team766.lib.Scheduler;
+package com.team766.lib.Messages;
 
 import lib.Message;
 
@@ -18,5 +18,9 @@ public class DriveDistance extends Message{
 	
 	public double getAngle(){
 		return angle;
+	}
+	
+	public String toString() {
+		return "Message:\tDrive Distance";
 	}
 }
