@@ -6,9 +6,9 @@ import org.opencv.core.Core;
 import interfaces.MyRobot;
 import lib.Scheduler;
 
-import com.team766.robot.Actors.Drive;
 import com.team766.robot.Actors.OperatorControl;
 import com.team766.robot.Actors.Vision;
+import com.team766.robot.Actors.Drive.Drive;
 
 /**
  * 2016 Summer robot code

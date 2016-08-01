@@ -3,7 +3,6 @@ package com.team766.robot.Actors;
 import interfaces.CameraReader;
 import lib.Actor;
 
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 
 import com.team766.robot.HardwareProvider;
@@ -24,6 +23,8 @@ public class Vision extends Actor{
 			img = axisCam.getImage();
 			if(img == null)
 				continue;
+			
+			//Begin processing image below
 		}
 	}
 
