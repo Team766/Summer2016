@@ -6,6 +6,7 @@ import org.opencv.core.Core;
 import interfaces.MyRobot;
 import lib.Scheduler;
 
+import com.team766.robot.Actors.AutonSelector;
 import com.team766.robot.Actors.OperatorControl;
 import com.team766.robot.Actors.Vision;
 import com.team766.robot.Actors.Drive.Drive;
@@ -43,6 +44,7 @@ public class Robot implements MyRobot {
     
     public void autonomousInit() {
     	setState(GameState.Auton);
+    	Scheduler.getInstance().add(new AutonSelector());
     }
 
     public void autonomousPeriodic() {

@@ -22,7 +22,7 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 			anglePID.setSetpoint(command.getAngle());
 			
 			anglePID.calculate(gyro.getAngle(), true);
-
+			System.out.println("GYRO\t" + gyro.getAngle());
 			leftMotor.set(anglePID.getOutput());
 			rightMotor.set(-anglePID.getOutput());
 			

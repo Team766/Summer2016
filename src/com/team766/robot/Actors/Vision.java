@@ -25,6 +25,8 @@ public class Vision extends Actor{
 				continue;
 			
 			//Begin processing image below
+			
+			sleep();
 		}
 	}
 

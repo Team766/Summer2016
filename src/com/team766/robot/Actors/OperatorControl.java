@@ -25,6 +25,7 @@ public class OperatorControl extends Actor {
 //			sendMessage(new MotorCommand(jRight.getRawAxis(0), MotorCommand.Motor.rightDrive));
 			
 			sendMessage(new CheesyDrive(jLeft.getRawButton(Constants.driverQuickTurn), jLeft.getRawAxis(Constants.accelAxis), jRight.getRawAxis(Constants.steerAxis)));
+			sleep();
 		}
 		Scheduler.getInstance().remove(this);
 	}

@@ -66,11 +66,7 @@ public class Drive extends Actor{
 			if(currentCommand != null)
 				currentCommand.update();
 			
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			sleep();
 		}
 	}
 	
