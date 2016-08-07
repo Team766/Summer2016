@@ -8,9 +8,10 @@ import com.team766.lib.Messages.MotorCommand;
 public class MotorSubCommand extends Drive implements SubActor{
 
 	MotorCommand command;
-	
+		
 	public MotorSubCommand(Message command){
 		this.command = (MotorCommand)command;
+		done = false;
 	}
 	
 	@Override
@@ -26,6 +27,9 @@ public class MotorSubCommand extends Drive implements SubActor{
 			System.out.println("Motor not recognized!");
 			break;
 		}
+		
+		//Only need to run once to set the motors
+		done = true;
 	}
 	
 	@Override

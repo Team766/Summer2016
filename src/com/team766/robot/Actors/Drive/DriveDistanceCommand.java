@@ -14,36 +14,48 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 	public DriveDistanceCommand(Message m){
 		command = (DriveDistance)m;
 		doneTurning = false;
+		
+		gyro.reset();
+		
+		anglePID.setSetpoint(getAngle() + command.getAngle());
+
+		done = false;
 	}
 	
 	@Override
 	public void update() {
 		if(!doneTurning){
-			anglePID.setSetpoint(command.getAngle());
-			
-			anglePID.calculate(gyro.getAngle(), true);
-			System.out.println("GYRO\t" + gyro.getAngle());
-			leftMotor.set(anglePID.getOutput());
-			rightMotor.set(-anglePID.getOutput());
+			anglePID.calculate(getAngle(), true);
 			
 			if(anglePID.isDone()){
+				System.out.println("Done Turning");
 				doneTurning = true;
+				
+				distancePID.setSetpoint(avgDist() + command.getDistance());
 				anglePID.reset();
 			}
+
+			leftMotor.set(anglePID.getOutput());
+			rightMotor.set(-anglePID.getOutput());
+
 		}else{
-			anglePID.setSetpoint(0);
-			distancePID.setSetpoint(command.getDistance());
+			System.out.println("Left: " + leftDist() + "\tRight: " + rightDist() + "\tERR: " + distancePID.getCurrentError());
 			
 			distancePID.calculate(avgDist(), true);
-			anglePID.calculate(avgDist(), true);
+			anglePID.calculate(getAngle(), true);
 			
+			if(distancePID.isDone()){
+				System.out.println("Done Driving :(");
+				setDrive(0.0);
+				done = anglePID.isDone();
+			}
+
 			//Drive straight
 			leftMotor.set(distancePID.getOutput() + anglePID.getOutput());
 			rightMotor.set(distancePID.getOutput() - anglePID.getOutput());
 			
-			if(distancePID.isDone()){
-				setDrive(0.0);
-			}
+//			System.out.println(avgDist());
+			
 		}
 	}
 

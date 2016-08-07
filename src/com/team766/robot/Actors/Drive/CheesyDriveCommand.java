@@ -16,20 +16,22 @@ public class CheesyDriveCommand extends Drive implements SubActor{
 	
 	@Override
 	public void update() {
-		angularVelocity.setSetpoint(command.getAngularVelocity() * (Constants.maxAngularVelocity));
-		linearVelocity.setSetpoint(command.getLinearVelocity() * (Constants.maxLinearVelocity));
+//		angularVelocity.setSetpoint(command.getAngularVelocity() * (Constants.maxAngularVelocity));
+//		linearVelocity.setSetpoint(command.getLinearVelocity() * (Constants.maxLinearVelocity));
+//		
+//		angularVelocity.calculate(gyro.getRate(), true);
+//		linearVelocity.calculate(avgLinearRate(), true);
+//
+//		
+//		if(!command.getQuickTurn()){
+//			leftMotor.set(linearVelocity.getOutput() + angularVelocity.getOutput());
+//			rightMotor.set(linearVelocity.getOutput() - angularVelocity.getOutput());
+//		}else{
+//			leftMotor.set(angularVelocity.getOutput());
+//			rightMotor.set(-angularVelocity.getOutput());
+//		}
 		
-		angularVelocity.calculate(gyro.getRate(), true);
-		linearVelocity.calculate(avgLinearRate(), true);
-
-		
-		if(!command.getQuickTurn()){
-			leftMotor.set(linearVelocity.getOutput() + angularVelocity.getOutput());
-			rightMotor.set(linearVelocity.getOutput() - angularVelocity.getOutput());
-		}else{
-			leftMotor.set(angularVelocity.getOutput());
-			rightMotor.set(-angularVelocity.getOutput());
-		}
+		done = false;
 	}
 
 	@Override

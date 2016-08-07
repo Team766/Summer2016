@@ -17,7 +17,8 @@ import com.team766.robot.Actors.Drive.Drive;
  * @author Brett Levenson
  */
 public class Robot implements MyRobot {
-
+	private long prevTime;
+	
 	public enum GameState{
 		Teleop,
 		Disabled,
@@ -40,6 +41,8 @@ public class Robot implements MyRobot {
 		
 		Scheduler.getInstance().add(new Drive());
 		Scheduler.getInstance().add(new Vision());
+		
+		prevTime = System.currentTimeMillis();
     }
     
     public void autonomousInit() {
@@ -48,6 +51,10 @@ public class Robot implements MyRobot {
     }
 
     public void autonomousPeriodic() {
+    	if(System.currentTimeMillis() - prevTime >= 1000){
+//    		System.out.println(Scheduler.getInstance().getCountsPerSecond());
+    		prevTime = System.currentTimeMillis();
+    	}
     }
     
     public void teleopInit() {

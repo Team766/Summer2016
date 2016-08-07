@@ -1,6 +1,7 @@
 package com.team766.robot.Actors;
 
 import lib.Actor;
+import lib.Scheduler;
 
 import com.team766.lib.Messages.DriveDistance;
 
@@ -12,7 +13,12 @@ public class AutonSelector extends Actor{
 	
 	@Override
 	public void run() {
-		sendMessage(new DriveDistance(0, 0.7));
+//		for(int i = 0; i < 5; i++){
+			sendMessage(new DriveDistance(90, 0));
+//			sendMessage(new DriveDistance(0, 0.3));
+//		}
+	
+		Scheduler.getInstance().remove(this);
 	}
 
 	@Override

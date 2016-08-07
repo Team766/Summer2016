@@ -17,8 +17,10 @@ public class DriveToCommand extends Drive implements SubActor{
 	public void update() {
 		if(avgDist() < command.getXDist()){
 			setDrive(0.5);
-		}else
+		}else{
 			setDrive(0.0);
+			done = true;
+		}
 	}
 
 	@Override

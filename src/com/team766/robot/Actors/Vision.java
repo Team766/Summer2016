@@ -20,13 +20,16 @@ public class Vision extends Actor{
 	public void run() {
 		Mat img;
 		while(enabled){
+			itsPerSec++;
+			sleep();
+			
+			
 			img = axisCam.getImage();
 			if(img == null)
 				continue;
 			
 			//Begin processing image below
 			
-			sleep();
 		}
 	}
 

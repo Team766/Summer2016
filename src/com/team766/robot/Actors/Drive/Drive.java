@@ -25,8 +25,8 @@ public class Drive extends Actor{
 	
 	GyroReader gyro = HardwareProvider.getInstance().getGyro();
 	
-	PIDController angularVelocity = new PIDController(Constants.k_angularP, Constants.k_angularI, Constants.k_angularD, Constants.k_angularThresh);
-	PIDController linearVelocity = new PIDController(Constants.k_linearP, Constants.k_linearI, Constants.k_linearD, Constants.k_linearThresh);
+//	PIDController angularVelocity = new PIDController(Constants.k_angularP, Constants.k_angularI, Constants.k_angularD, Constants.k_angularThresh);
+//	PIDController linearVelocity = new PIDController(Constants.k_linearP, Constants.k_linearI, Constants.k_linearD, Constants.k_linearThresh);
 	
 	PIDController anglePID = new PIDController(Constants.k_angularP, Constants.k_angularI, Constants.k_angularD, Constants.k_angularThresh);
 	PIDController distancePID = new PIDController(Constants.k_linearP, Constants.k_linearI, Constants.k_linearD, Constants.k_linearThresh);
@@ -44,10 +44,7 @@ public class Drive extends Actor{
 		while(enabled){
 			
 			//Check for new messages
-			if(newMessage()){
-				if(currentCommand != null)
-					currentCommand.stop();
-				
+			if((currentCommand == null || currentCommand.isDone()) && newMessage()){
 				currentMessage = readMessage();
 				
 				if(currentMessage instanceof MotorCommand)
@@ -63,9 +60,16 @@ public class Drive extends Actor{
 				resetControlLoops();
 			}
 			
-			if(currentCommand != null)
-				currentCommand.update();
+			if(currentCommand != null){
+				if(currentCommand.isDone()){
+					currentCommand.stop();
+					currentCommand = null;
+				}else{
+					currentCommand.update();
+				}
+			}
 			
+			itsPerSec++;
 			sleep();
 		}
 	}
@@ -76,15 +80,15 @@ public class Drive extends Actor{
 	}
 	
 	protected double avgDist(){
-		return (leftDist() + rightDist())/2;
+		return (leftDist() + rightDist())/2.0;
 	}
 	
 	protected double leftDist(){
-		return leftEncoder.getRaw() / Constants.counts_per_rev * Constants.wheel_circumference;
+		return -1.0 * leftEncoder.getRaw() / Constants.counts_per_rev * Constants.wheel_circumference;
 	}
 	
 	protected double rightDist(){
-		return leftEncoder.getRaw() / Constants.counts_per_rev * Constants.wheel_circumference;
+		return -1.0 * leftEncoder.getRaw() / Constants.counts_per_rev * Constants.wheel_circumference;
 	}
 	
 	protected void setDrive(double power){
@@ -97,8 +101,26 @@ public class Drive extends Actor{
 	}
 	
 	private void resetControlLoops(){
-		angularVelocity.reset();
-		linearVelocity.reset();
+//		angularVelocity.reset();
+//		linearVelocity.reset();
+		anglePID.reset();
+		distancePID.reset();
+	}
+	
+	/**
+	 * -180 to 180 degrees
+	 * @return
+	 */
+	public double getAngle(){
+		double angle = gyro.getAngle();
+		if(angle < 0)
+			while(angle < -180)
+				angle += 360;
+		else
+			while(angle > 180)
+				angle -= 360;
+		
+		return angle;
 	}
 	
 }
