@@ -17,7 +17,7 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 		
 		gyro.reset();
 		
-		anglePID.setSetpoint(getAngle() + command.getAngle());
+		anglePID.setSetpoint(gyro.getAngle() + command.getAngle());
 
 		done = false;
 	}
@@ -25,7 +25,7 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 	@Override
 	public void update() {
 		if(!doneTurning){
-			anglePID.calculate(getAngle(), true);
+			anglePID.calculate(gyro.getAngle(), true);
 			
 			if(anglePID.isDone()){
 				System.out.println("Done Turning");
@@ -39,10 +39,10 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 			rightMotor.set(-anglePID.getOutput());
 
 		}else{
-			System.out.println("Left: " + leftDist() + "\tRight: " + rightDist() + "\tERR: " + distancePID.getCurrentError());
+//			System.out.println("Left: " + leftDist() + "\tRight: " + rightDist() + "\tERR: " + distancePID.getCurrentError());
 			
 			distancePID.calculate(avgDist(), true);
-			anglePID.calculate(getAngle(), true);
+			anglePID.calculate(gyro.getAngle(), true);
 			
 			if(distancePID.isDone()){
 				System.out.println("Done Driving :(");
