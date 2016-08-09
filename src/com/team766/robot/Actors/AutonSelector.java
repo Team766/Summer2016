@@ -15,10 +15,13 @@ public class AutonSelector extends Actor{
 	
 	@Override
 	public void run() {
-//		for(int i = 0; i < 5; i++){
-			waitForMessage(new DriveDistance(90, 0), DriveStatusUpdate.class);
-//			waitForMessage(new DriveDistance(0, 0.3), DriveStatusUpdate.class);
+//		for(int i = 0; i < 4; i++){
+//			waitForMessage(new DriveDistance(90, 0), DriveStatusUpdate.class);
+//			sleep();
+			waitForMessage(new DriveDistance(0, 2.0), DriveStatusUpdate.class);
+//			sleep();
 //		}
+		
 	
 		Scheduler.getInstance().remove(this);
 	}

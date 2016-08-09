@@ -17,13 +17,15 @@ public class Constants {
 	public static final int accelAxis = 0;
 	
 	//Drive PID
-	public static final double k_angularP =	0.003;//1/maxAngularVelocity;
-	public static final double k_angularI = 0.00000;//15
-	public static final double k_angularD = 0.003979;
+	public static final double MAX_STOPPING_VEL = 0.1;
+	
+	public static final double k_angularP =	0.04;//1/maxAngularVelocity;	//.012
+	public static final double k_angularI = 0.0000;
+	public static final double k_angularD = 0.3;
 	public static final double k_angularThresh = 0.9;
 	
-	public static final double k_linearP = 0.6;//1/maxLinearVelocity;
-	public static final double k_linearI = 0.002;
-	public static final double k_linearD = 0.004;
+	public static final double k_linearP = 1.0;//1/maxLinearVelocity;
+	public static final double k_linearI = 0.00;
+	public static final double k_linearD = 0.00;
 	public static final double k_linearThresh = 0.01;
 }

@@ -35,6 +35,12 @@ public class Drive extends Actor{
 	protected double xPos = 0;
 	protected double yPos = 0;
 	
+	private double lastVelTime;
+	private double rightVel;
+	private double leftVel;
+	private double lastRightDist;
+	private double lastLeftDist;
+	
 	private boolean commandFinished;
 	
 	Message currentMessage;
@@ -44,6 +50,12 @@ public class Drive extends Actor{
 	public void init() {
 		acceptableMessages = new Class[]{MotorCommand.class, DriveTo.class, CheesyDrive.class, DriveDistance.class};
 		commandFinished = false;
+		
+		lastVelTime = System.currentTimeMillis() / 1000;
+		leftVel = 0;
+		rightVel = 0;
+		lastLeftDist = leftDist();
+		lastRightDist = rightDist();
 	}
 	
 	public void run() {
@@ -84,6 +96,8 @@ public class Drive extends Actor{
 			
 			//Send Status Update	#StayUpToDate	#Current	#inTheKnow
 			sendMessage(new DriveStatusUpdate(commandFinished, currentMessage, xPos, yPos, avgLinearRate()));
+	
+			updateVelocities();
 			
 			itsPerSec++;
 			sleep();
@@ -91,8 +105,29 @@ public class Drive extends Actor{
 	}
 	
 	
+	private void updateVelocities(){
+		if(System.currentTimeMillis()/1000 - lastVelTime > 0.5){
+			
+			leftVel = (leftDist() - lastLeftDist) / (0.5);
+			rightVel = (rightDist() - lastRightDist) / (0.5);
+			
+			lastLeftDist = leftDist();
+			lastRightDist = rightDist();
+			lastVelTime = System.currentTimeMillis()/1000;
+		}
+	}
+	
 	public double avgLinearRate(){
-		return (leftEncoder.getRate() + rightEncoder.getRate())/2.0;
+		return (leftRate() + rightRate()) / 2.0;
+//		return (leftEncoder.getRate() + rightEncoder.getRate())/2.0;
+	}
+	
+	public double leftRate(){
+		return leftVel;
+	}
+	
+	public double rightRate(){
+		return rightVel;
 	}
 	
 	protected double avgDist(){
