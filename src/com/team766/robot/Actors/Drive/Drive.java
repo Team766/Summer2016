@@ -32,8 +32,12 @@ public class Drive extends Actor{
 	PIDController anglePID = new PIDController(Constants.k_angularP, Constants.k_angularI, Constants.k_angularD, Constants.k_angularThresh);
 	PIDController distancePID = new PIDController(Constants.k_linearP, Constants.k_linearI, Constants.k_linearD, Constants.k_linearThresh);
 	
+	//Position
 	protected double xPos = 0;
 	protected double yPos = 0;
+	private double lastPosTime;
+	private double lastHeading;
+	private double currHeading;
 	
 	private double lastVelTime;
 	private double rightVel;
@@ -50,6 +54,9 @@ public class Drive extends Actor{
 	public void init() {
 		acceptableMessages = new Class[]{MotorCommand.class, DriveTo.class, CheesyDrive.class, DriveDistance.class};
 		commandFinished = false;
+		
+		lastPosTime = System.currentTimeMillis() / 1000;
+		lastHeading = 0;
 		
 		lastVelTime = System.currentTimeMillis() / 1000;
 		leftVel = 0;
@@ -98,6 +105,7 @@ public class Drive extends Actor{
 			sendMessage(new DriveStatusUpdate(commandFinished, currentMessage, xPos, yPos, avgLinearRate()));
 	
 			updateVelocities();
+			updateLocation();
 			
 			itsPerSec++;
 			sleep();
@@ -114,6 +122,18 @@ public class Drive extends Actor{
 			lastLeftDist = leftDist();
 			lastRightDist = rightDist();
 			lastVelTime = System.currentTimeMillis()/1000;
+		}
+	}
+	
+	private void updateLocation(){
+		if(System.currentTimeMillis()/1000 - lastPosTime > 0.25){
+			currHeading = Math.toRadians(gyro.getAngle());
+			
+			xPos += (Math.cos(currHeading) + Math.cos(lastHeading)) * avgDist() / 2.0;
+			yPos += (Math.sin(currHeading) + Math.sin(lastHeading)) * avgDist() / 2.0;
+			
+			lastHeading = Math.toRadians(gyro.getAngle());
+			lastPosTime = System.currentTimeMillis() / 1000;
 		}
 	}
 	
@@ -156,6 +176,10 @@ public class Drive extends Actor{
 		linearVelocity.reset();
 		anglePID.reset();
 		distancePID.reset();
+	}
+	
+	protected double getAngle(){
+		return gyro.getAngle() + Constants.STARTING_HEADING;
 	}
 	
 	/**

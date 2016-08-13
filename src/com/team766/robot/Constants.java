@@ -28,4 +28,6 @@ public class Constants {
 	public static final double k_linearI = 0.00;
 	public static final double k_linearD = 0.00;
 	public static final double k_linearThresh = 0.01;
+
+	public static final double STARTING_HEADING = -180;
 }
