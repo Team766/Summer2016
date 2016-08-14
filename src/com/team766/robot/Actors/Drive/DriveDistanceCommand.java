@@ -19,6 +19,7 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 		
 		gyro.reset();
 		
+		switchAngleGains(true);
 		anglePID.setSetpoint(gyro.getAngle() + command.getAngle());
 
 		done = false;
@@ -39,7 +40,7 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 				setDrive(0.0);
 				
 				distancePID.setSetpoint(avgDist() + command.getDistance());
-				anglePID.reset();
+				switchAngleGains(false);
 				startTime = System.currentTimeMillis() / 1000;
 			}
 			
@@ -54,18 +55,18 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 			distancePID.calculate(avgDist(), true);
 			anglePID.calculate(gyro.getAngle(), true);
 			
-			if(distancePID.isDone() && avgLinearRate() < Constants.MAX_STOPPING_VEL){
+			if(distancePID.isDone() && Math.abs(avgLinearRate()) < Constants.MAX_STOPPING_VEL){
 				System.out.println("Done Distance");
 				setDrive(0.0);
 				System.out.println(anglePID.getCurrentError());
 				done = anglePID.isDone();
 			}
 			
-			System.out.println(System.currentTimeMillis()/1000.0 - startTime + "\t" + distancePID.getCurrentError() + "\t" + avgLinearRate());
+//			System.out.println(System.currentTimeMillis()/1000.0 - startTime + "\t" + distancePID.getCurrentError() + "\t" + avgLinearRate());
 			
 			//Drive straight
-			leftMotor.set(distancePID.getOutput() + anglePID.getOutput());
-			rightMotor.set(distancePID.getOutput() - anglePID.getOutput());
+			setLeft(distancePID.getOutput() + anglePID.getOutput());
+			setRight(distancePID.getOutput() - anglePID.getOutput());
 			
 //			System.out.println(avgDist());
 			

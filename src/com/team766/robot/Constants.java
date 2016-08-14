@@ -17,12 +17,16 @@ public class Constants {
 	public static final int accelAxis = 0;
 	
 	//Drive PID
-	public static final double MAX_STOPPING_VEL = 0.1;
+	public static final double MAX_STOPPING_VEL = 0.5;	//	UNITS:	m/s
 	
 	public static final double k_angularP =	0.04;//1/maxAngularVelocity;	//.012
 	public static final double k_angularI = 0.0000;
 	public static final double k_angularD = 0.3;
-	public static final double k_angularThresh = 0.9;
+	public static final double k_angularThresh = 1;
+	
+	public static final double k_driveAngularP = 0.01;
+	public static final double k_driveAngularI = 0.0008;
+	public static final double k_driveAngularD = 0.0;
 	
 	public static final double k_linearP = 1.0;//1/maxLinearVelocity;
 	public static final double k_linearI = 0.00;

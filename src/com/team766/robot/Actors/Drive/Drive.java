@@ -10,6 +10,7 @@ import lib.PIDController;
 
 import com.team766.lib.Messages.CheesyDrive;
 import com.team766.lib.Messages.DriveDistance;
+import com.team766.lib.Messages.DrivePath;
 import com.team766.lib.Messages.DriveStatusUpdate;
 import com.team766.lib.Messages.DriveTo;
 import com.team766.lib.Messages.MotorCommand;
@@ -52,7 +53,7 @@ public class Drive extends Actor{
 	SubActor currentCommand;
 	
 	public void init() {
-		acceptableMessages = new Class[]{MotorCommand.class, DriveTo.class, CheesyDrive.class, DriveDistance.class};
+		acceptableMessages = new Class[]{MotorCommand.class, DriveTo.class, CheesyDrive.class, DriveDistance.class, DrivePath.class};
 		commandFinished = false;
 		
 		lastPosTime = System.currentTimeMillis() / 1000;
@@ -67,7 +68,7 @@ public class Drive extends Actor{
 	
 	public void run() {
 		while(enabled){
-			
+
 			//Check for new messages
 			if(newMessage()){
 				if(currentCommand != null)
@@ -85,6 +86,8 @@ public class Drive extends Actor{
 					currentCommand = new DriveDistanceCommand(currentMessage);
 				else if(currentMessage instanceof CheesyDrive)
 					currentCommand = new CheesyDriveCommand(currentMessage);
+				else if(currentMessage instanceof DrivePath)
+					currentCommand = new DrivePathCommand(currentMessage);
 				
 				//Reset Control loops
 				resetControlLoops();
@@ -116,8 +119,10 @@ public class Drive extends Actor{
 	private void updateVelocities(){
 		if(System.currentTimeMillis()/1000 - lastVelTime > 0.5){
 			
-			leftVel = (leftDist() - lastLeftDist) / (0.5);
-			rightVel = (rightDist() - lastRightDist) / (0.5);
+			leftVel = (leftDist() - lastLeftDist) / (System.currentTimeMillis()/1000 - lastVelTime);
+			rightVel = (rightDist() - lastRightDist) / (System.currentTimeMillis()/1000 - lastVelTime);
+			
+			System.out.printf("%f\t%f\t%f\n", avgLinearRate(), rightVel, rightVel);
 			
 			lastLeftDist = leftDist();
 			lastRightDist = rightDist();
@@ -163,8 +168,21 @@ public class Drive extends Actor{
 	}
 	
 	protected void setDrive(double power){
+		setLeft(power);
+		setRight(power);
+	}
+	
+	protected void setLeft(double power){
 		leftMotor.set(power);
+	}
+	
+	protected void setRight(double power){
 		rightMotor.set(power);
+	}
+	
+	protected void resetEncoders(){
+		leftEncoder.reset();
+		rightEncoder.reset();
 	}
 	
 	public String toString(){
@@ -196,6 +214,17 @@ public class Drive extends Actor{
 				angle -= 360;
 		
 		return angle;
+	}
+	
+	protected double getGyroAngleInRadians(){
+		return Math.toRadians(getAngle());
+	}
+	
+	protected void switchAngleGains(boolean turn){
+		if(turn)
+			anglePID.setConstants(Constants.k_angularP, Constants.k_angularI, Constants.k_angularD);
+		else
+			anglePID.setConstants(Constants.k_driveAngularP, Constants.k_driveAngularI, Constants.k_driveAngularD);
 	}
 	
 }

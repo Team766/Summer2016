@@ -1,10 +1,12 @@
 
 package com.team766.robot;
 
-import org.opencv.core.Core;
-
 import interfaces.MyRobot;
 import lib.Scheduler;
+
+import org.opencv.core.Core;
+
+import trajectory.AutoPaths;
 
 import com.team766.robot.Actors.AutonSelector;
 import com.team766.robot.Actors.OperatorControl;
@@ -41,6 +43,8 @@ public class Robot implements MyRobot {
 		
 		Scheduler.getInstance().add(new Drive());
 		Scheduler.getInstance().add(new Vision());
+		
+		AutoPaths.loadPaths();
 		
 		prevTime = System.currentTimeMillis();
     }

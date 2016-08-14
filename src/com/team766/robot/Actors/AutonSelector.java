@@ -1,9 +1,11 @@
 package com.team766.robot.Actors;
 
+import trajectory.AutoPaths;
 import lib.Actor;
 import lib.Scheduler;
 
 import com.team766.lib.Messages.DriveDistance;
+import com.team766.lib.Messages.DrivePath;
 import com.team766.lib.Messages.DriveStatusUpdate;
 
 public class AutonSelector extends Actor{
@@ -18,10 +20,10 @@ public class AutonSelector extends Actor{
 //		for(int i = 0; i < 4; i++){
 //			waitForMessage(new DriveDistance(90, 0), DriveStatusUpdate.class);
 //			sleep();
-			waitForMessage(new DriveDistance(0, 2.0), DriveStatusUpdate.class);
+//			waitForMessage(new DriveDistance(0, 6.0), DriveStatusUpdate.class);
 //			sleep();
 //		}
-		
+		waitForMessage(new DrivePath("StraightAheadPath"), DriveStatusUpdate.class);
 	
 		Scheduler.getInstance().remove(this);
 	}

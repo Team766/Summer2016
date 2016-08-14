@@ -1,16 +1,18 @@
 package com.team766.lib.Messages;
 
+import trajectory.AutoPaths;
+import trajectory.Path;
 import lib.Message;
 
 public class DrivePath extends Message{
 	
-	private String path;
+	private Path path;
 	
-	public DrivePath(String path){
-		this.path = path;
+	public DrivePath(String pathName){
+		path = AutoPaths.get(pathName);
 	}
 	
-	public String getPath(){
+	public Path getPath(){
 		return path;
 	}
 	
