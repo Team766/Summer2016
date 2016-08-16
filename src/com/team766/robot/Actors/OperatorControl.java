@@ -32,6 +32,9 @@ public class OperatorControl extends Actor {
 		Scheduler.getInstance().remove(this);
 	}
 	
+	public void step(){
+	}
+	
 	public String toString(){
 		return "Actor:\tOperator Control";
 	}

@@ -23,9 +23,12 @@ public class AutonSelector extends Actor{
 //			waitForMessage(new DriveDistance(0, 6.0), DriveStatusUpdate.class);
 //			sleep();
 //		}
-		waitForMessage(new DrivePath("StraightAheadPath"), DriveStatusUpdate.class);
+		waitForMessage(new DrivePath("InsideLanePathFar"), DriveStatusUpdate.class);
 	
 		Scheduler.getInstance().remove(this);
+	}
+	
+	public void step(){
 	}
 
 	@Override

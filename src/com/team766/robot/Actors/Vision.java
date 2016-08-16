@@ -32,6 +32,9 @@ public class Vision extends Actor{
 			
 		}
 	}
+	
+	public void step(){
+	}
 
 	@Override
 	public String toString(){

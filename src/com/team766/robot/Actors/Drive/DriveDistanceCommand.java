@@ -16,9 +16,7 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 	public DriveDistanceCommand(Message m){
 		command = (DriveDistance)m;
 		doneTurning = false;
-		
-		gyro.reset();
-		
+				
 		switchAngleGains(true);
 		anglePID.setSetpoint(gyro.getAngle() + command.getAngle());
 
@@ -30,7 +28,6 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 	@Override
 	public void update() {
 		if(!doneTurning){
-			
 			anglePID.calculate(gyro.getAngle(), true);
 			
 			if(anglePID.isDone()){
@@ -43,10 +40,9 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 				switchAngleGains(false);
 				startTime = System.currentTimeMillis() / 1000;
 			}
-			
+			System.out.println(gyro.getAngle() + "\t" + anglePID.getCurrentError() + "\t" + anglePID.getSetpoint());
 //			System.out.println(System.currentTimeMillis()/1000.0 - startTime + "\t" + anglePID.getError() + "\t" + gyro.getAngle() + "\t" + anglePID.getOutput());
-		
-			
+					
 			leftMotor.set(anglePID.getOutput());
 			rightMotor.set(-anglePID.getOutput());
 		}else{
@@ -55,7 +51,7 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 			distancePID.calculate(avgDist(), true);
 			anglePID.calculate(gyro.getAngle(), true);
 			
-			if(distancePID.isDone() && Math.abs(avgLinearRate()) < Constants.MAX_STOPPING_VEL){
+			if(command.getDistance() == 0 || (distancePID.isDone() && Math.abs(avgLinearRate()) < Constants.MAX_STOPPING_VEL)){
 				System.out.println("Done Distance");
 				setDrive(0.0);
 				System.out.println(anglePID.getCurrentError());

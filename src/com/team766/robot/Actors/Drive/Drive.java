@@ -92,17 +92,8 @@ public class Drive extends Actor{
 				//Reset Control loops
 				resetControlLoops();
 			}
-			
-							
-			if(currentCommand != null){
-				if(currentCommand.isDone()){
-					currentCommand.stop();
-					commandFinished = true;
-					currentCommand = null;
-				}else{
-					currentCommand.update();
-				}
-			}
+								
+			step();
 			
 			//Send Status Update	#StayUpToDate	#Current	#inTheKnow
 			sendMessage(new DriveStatusUpdate(commandFinished, currentMessage, xPos, yPos, avgLinearRate()));
@@ -112,6 +103,18 @@ public class Drive extends Actor{
 			
 			itsPerSec++;
 			sleep();
+		}
+	}
+	
+	public void step(){
+		if(currentCommand != null){
+			if(currentCommand.isDone()){
+				currentCommand.stop();
+				commandFinished = true;
+				currentCommand = null;
+			}else{
+				currentCommand.update();
+			}
 		}
 	}
 	
