@@ -1,10 +1,7 @@
-
 package com.team766.robot;
 
 import interfaces.MyRobot;
 import lib.Scheduler;
-
-import org.opencv.core.Core;
 
 import trajectory.AutoPaths;
 
@@ -39,8 +36,6 @@ public class Robot implements MyRobot {
     }
 	
 	public void robotInit() {
-		//System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		
 		Scheduler.getInstance().add(new Drive());
 		Scheduler.getInstance().add(new Vision());
 		
@@ -86,6 +81,4 @@ public class Robot implements MyRobot {
 	public void startCompetition(){
 		System.out.println("Wrong one...close enough?");
 	}
-
-    
 }

@@ -9,3 +9,5 @@ usbCamera,cam0
 leftJoystick,8
 rightJoystick,9
 boxJoystick,10
+shooterMotor,4
+shooterEncocer,5,7
