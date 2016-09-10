@@ -39,13 +39,13 @@ public class Robot implements MyRobot {
     }
 	
 	public void robotInit() {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		//System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		
 		Scheduler.getInstance().add(new Drive());
 		Scheduler.getInstance().add(new Vision());
 		
 		AutoPaths.loadPaths();
-		
+		System.err.println("IM ALIVE!!");
 		prevTime = System.currentTimeMillis();
     }
     
@@ -82,6 +82,10 @@ public class Robot implements MyRobot {
 	
 	public void testPeriodic() {
     }
+	
+	public void startCompetition(){
+		System.out.println("Wrong one...close enough?");
+	}
 
     
 }

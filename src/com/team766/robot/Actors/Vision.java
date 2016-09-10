@@ -23,7 +23,7 @@ public class Vision extends Actor{
 			itsPerSec++;
 			sleep();
 			
-			
+			System.err.println("VISION:  HELLO...ITS ME...");
 			img = axisCam.getImage();
 			if(img == null)
 				continue;

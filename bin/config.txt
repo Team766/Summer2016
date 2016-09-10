@@ -1,0 +1,11 @@
+leftMotor,10
+rightMotor,11
+leftEncoder,10,3
+rightEncoder,11,5
+driveShifter,6
+gyro,12
+axisCamera,10.7.66.11
+usbCamera,cam0
+leftJoystick,8
+rightJoystick,9
+boxJoystick,10
