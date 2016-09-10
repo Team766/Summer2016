@@ -19,6 +19,14 @@ public class ConfigFile {
 		return ConfigFileReader.getInstance().getPort("rightMotor");
 	}
 	
+	public static int getShooterMotor(){
+		return ConfigFileReader.getInstance().getPort("shooterMotor");
+	}
+	
+	public static int[] getShooterEncoder(){
+		return ConfigFileReader.getInstance().getPorts("shooterEncoder");
+	}
+	
 	public static int[] getLeftEncoder(){
 		return ConfigFileReader.getInstance().getPorts("leftEncoder");
 	}

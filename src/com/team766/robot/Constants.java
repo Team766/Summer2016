@@ -32,6 +32,15 @@ public class Constants {
 	public static final double k_linearI = 0.00;
 	public static final double k_linearD = 0.00;
 	public static final double k_linearThresh = 0.01;
+	
+	public static final double k_shooterP = 1.00;
+	public static final double k_shooterI = 0.00;
+	public static final double k_shooterD = 0.00;
+	public static final double k_shooterThreshold = 0.00;
+	
+	public static final double k_shooterGearRatio = 1.0;
+	
+	public static final double k_shooterShotVelocity = 1.0;
 
 	public static final double STARTING_HEADING = -180;
 }

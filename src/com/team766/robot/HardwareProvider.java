@@ -27,6 +27,14 @@ public class HardwareProvider {
 	public SpeedController getRightDrive(){
 		return RobotProvider.instance.getMotor(ConfigFile.getRightMotor());
 	}
+	
+	public SpeedController getShooterMotor(){
+		return RobotProvider.instance.getMotor(ConfigFile.getShooterMotor());
+	}
+	
+	public EncoderReader getShooterEncoder(){
+		return RobotProvider.instance.getEncoder(ConfigFile.getShooterEncoder()[0], ConfigFile.getShooterEncoder()[0]);
+	}
 
 	public EncoderReader getLeftEncoder(){
 		return RobotProvider.instance.getEncoder(ConfigFile.getLeftEncoder()[0], ConfigFile.getLeftEncoder()[1]);
