@@ -1,6 +1,19 @@
 package com.team766.robot;
 
-public class Constants {
+import lib.RobotValues;
+
+public abstract class Constants extends RobotValues{
+	
+	public static int getAutonMode(){
+		return AutonMode;
+	}
+	
+	public static void setAutonMode(int autonMode){
+		AutonMode = autonMode;
+	}
+	
+	public static final String[] AUTONS = new String[]{"None"};
+	
 	public static final int ACTOR_COUNT = 5;
 	
 	public static final double wheel_circumference = 0.2032 * Math.PI;

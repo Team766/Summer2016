@@ -1,8 +1,9 @@
 package com.team766.robot;
 
 import interfaces.MyRobot;
+import lib.HTTPServer;
 import lib.Scheduler;
-
+import lib.LogFactory;
 import trajectory.AutoPaths;
 
 import com.team766.robot.Actors.AutonSelector;
@@ -17,6 +18,8 @@ import com.team766.robot.Actors.Drive.Drive;
  */
 public class Robot implements MyRobot {
 	private long prevTime;
+	private boolean autonDone = false;
+	private boolean teleopDone = false;
 	
 	public enum GameState{
 		Teleop,
@@ -36,17 +39,25 @@ public class Robot implements MyRobot {
     }
 	
 	public void robotInit() {
+		LogFactory.createInstance("General");
+		
 		Scheduler.getInstance().add(new Drive());
 		Scheduler.getInstance().add(new Vision());
 		
 		AutoPaths.loadPaths();
-		System.err.println("IM ALIVE!!");
+		System.out.println("IM ALIVE!!");
+		
+		new Thread(new HTTPServer(Constants.AUTONS)).start();;
+		
 		prevTime = System.currentTimeMillis();
     }
     
     public void autonomousInit() {
+    	LogFactory.getInstance("General").print("Auton Init");
     	setState(GameState.Auton);
-    	Scheduler.getInstance().add(new AutonSelector());
+    	Scheduler.getInstance().add(new AutonSelector(Constants.getAutonMode()));
+    	
+    	autonDone = true;
     }
 
     public void autonomousPeriodic() {
@@ -57,15 +68,22 @@ public class Robot implements MyRobot {
     }
     
     public void teleopInit() {
+    	LogFactory.getInstance("General").print("Teleop Init");
     	setState(GameState.Teleop);
 		Scheduler.getInstance().add(new OperatorControl());
+		teleopDone = true;
 	}
 
     public void teleopPeriodic() {
     }
     
     public void disabledInit() {
+    	LogFactory.getInstance("General").print("Robot Disabled");
     	setState(GameState.Disabled);
+    	
+    	if(autonDone && teleopDone){
+			LogFactory.closeFiles();
+		}
 	}
     
     public void disabledPeriodic() {
