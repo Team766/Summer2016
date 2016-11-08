@@ -19,7 +19,7 @@ public class Vision extends Actor{
 	@Override
 	public void run() {
 		Mat img;
-		while(enabled){
+		while(true){
 			itsPerSec++;
 			sleep();
 	
@@ -28,7 +28,6 @@ public class Vision extends Actor{
 				continue;
 			
 			//Begin processing image below
-			
 		}
 	}
 	

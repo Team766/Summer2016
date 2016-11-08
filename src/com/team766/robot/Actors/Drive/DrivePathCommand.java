@@ -1,6 +1,7 @@
 package com.team766.robot.Actors.Drive;
 
 import interfaces.SubActor;
+import lib.LogFactory;
 import lib.Message;
 import trajectory.Path;
 import trajectory.Trajectory;
@@ -26,8 +27,12 @@ public class DrivePathCommand extends Drive implements SubActor {
 	double kTurn = 0.004;//-3.0 / 80.0;
 
 	public DrivePathCommand(Message m) {
+		done = false;
+		LogFactory.getInstance("General").print("Drive: DrivePathCommand");
 		command = (DrivePath) m;
 		path = command.getPath();
+		
+		LogFactory.getInstance("General").print("In constructor");
 		
 		init();
 	}
@@ -48,6 +53,7 @@ public class DrivePathCommand extends Drive implements SubActor {
 	}
 
 	public void update() {
+		LogFactory.getInstance("General").print("Auton: Running Drive Path");
 		// We need to set the Trajectory each update as it may have been flipped
 		// from under us
 		loadProfileNoReset(path.getLeftWheelTrajectory(),

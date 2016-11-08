@@ -4,7 +4,7 @@ import interfaces.JoystickReader;
 import lib.Actor;
 import lib.Scheduler;
 
-import com.team766.lib.Messages.CheesyDrive;
+import com.team766.lib.Messages.MotorCommand;
 import com.team766.lib.Messages.UpdateShooterVelocity;
 import com.team766.robot.Buttons;
 import com.team766.robot.Constants;
@@ -24,10 +24,10 @@ public class OperatorControl extends Actor {
 	
 	public void run() {
 		while(Robot.getState() == Robot.GameState.Teleop){
-//			sendMessage(new MotorCommand(jLeft.getRawAxis(0), MotorCommand.Motor.leftDrive));
-//			sendMessage(new MotorCommand(jRight.getRawAxis(0), MotorCommand.Motor.rightDrive));
+			sendMessage(new MotorCommand(jLeft.getRawAxis(0), MotorCommand.Motor.leftDrive));
+			sendMessage(new MotorCommand(jRight.getRawAxis(0), MotorCommand.Motor.rightDrive));
 			
-			sendMessage(new CheesyDrive(jLeft.getRawButton(Constants.driverQuickTurn), jLeft.getRawAxis(Constants.accelAxis), jRight.getRawAxis(Constants.steerAxis)));
+//			sendMessage(new CheesyDrive(jLeft.getRawButton(Constants.driverQuickTurn), jLeft.getRawAxis(Constants.accelAxis), jRight.getRawAxis(Constants.steerAxis)));
 			
 			if(jLeft.getRawButton(Buttons.shooterMaxVelocity))
 				sendMessage(new UpdateShooterVelocity(Constants.k_shooterShotVelocity));

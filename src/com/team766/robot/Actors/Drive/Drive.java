@@ -5,6 +5,7 @@ import interfaces.GyroReader;
 import interfaces.SpeedController;
 import interfaces.SubActor;
 import lib.Actor;
+import lib.LogFactory;
 import lib.Message;
 import lib.PIDController;
 
@@ -67,8 +68,7 @@ public class Drive extends Actor{
 	}
 	
 	public void run() {
-		while(enabled){
-
+		while(true){			
 			//Check for new messages
 			if(newMessage()){
 				if(currentCommand != null)
@@ -77,6 +77,10 @@ public class Drive extends Actor{
 				commandFinished = false;
 				
 				currentMessage = readMessage();
+				if(currentMessage == null)
+					break;
+				
+				LogFactory.getInstance("General").print("Message \t" + currentMessage.toString());
 				
 				if(currentMessage instanceof MotorCommand)
 					currentCommand = new MotorSubCommand(currentMessage);
@@ -88,6 +92,8 @@ public class Drive extends Actor{
 					currentCommand = new CheesyDriveCommand(currentMessage);
 				else if(currentMessage instanceof DrivePath)
 					currentCommand = new DrivePathCommand(currentMessage);
+				
+				LogFactory.getInstance("General").print("Current Drive Command: " + currentCommand.toString());
 				
 				//Reset Control loops
 				resetControlLoops();
@@ -171,6 +177,7 @@ public class Drive extends Actor{
 	}
 	
 	protected void setDrive(double power){
+		LogFactory.getInstance("General").print("Drive: SetPower\t" + power);
 		setLeft(power);
 		setRight(power);
 	}
