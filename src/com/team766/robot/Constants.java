@@ -26,8 +26,8 @@ public abstract class Constants extends RobotValues{
 	public static final int driverQuickTurn = 1;
 	
 	//Axis
-	public static final int steerAxis = 1;
-	public static final int accelAxis = 0;
+	public static final int steerAxis = 0;
+	public static final int accelAxis = 1;
 	
 	//Drive PID
 	public static final double MAX_STOPPING_VEL = 0.5;	//	UNITS:	m/s

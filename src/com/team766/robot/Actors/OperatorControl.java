@@ -24,8 +24,8 @@ public class OperatorControl extends Actor {
 	
 	public void run() {
 		while(Robot.getState() == Robot.GameState.Teleop){
-			sendMessage(new MotorCommand(jLeft.getRawAxis(0), MotorCommand.Motor.leftDrive));
-			sendMessage(new MotorCommand(jRight.getRawAxis(0), MotorCommand.Motor.rightDrive));
+			sendMessage(new MotorCommand(jLeft.getRawAxis(1), MotorCommand.Motor.leftDrive));
+			sendMessage(new MotorCommand(jRight.getRawAxis(1), MotorCommand.Motor.rightDrive));
 			
 //			sendMessage(new CheesyDrive(jLeft.getRawButton(Constants.driverQuickTurn), jLeft.getRawAxis(Constants.accelAxis), jRight.getRawAxis(Constants.steerAxis)));
 			
