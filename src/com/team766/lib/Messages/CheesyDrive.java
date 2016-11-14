@@ -2,7 +2,7 @@ package com.team766.lib.Messages;
 
 import lib.Message;
 
-public class CheesyDrive extends Message{
+public class CheesyDrive implements Message{
 	private boolean quickTurn;
 	private double accel;
 	private double steer;

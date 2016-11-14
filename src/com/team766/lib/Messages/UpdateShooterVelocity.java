@@ -2,7 +2,7 @@ package com.team766.lib.Messages;
 
 import lib.Message;
 
-public class UpdateShooterVelocity extends Message{
+public class UpdateShooterVelocity implements Message{
 	
 	private double velocity;
 	

@@ -2,7 +2,7 @@ package com.team766.lib.Messages;
 
 import lib.Message;
 
-public class MotorCommand extends Message{
+public class MotorCommand implements Message{
 
 	private double value;
 	private Motor motor;

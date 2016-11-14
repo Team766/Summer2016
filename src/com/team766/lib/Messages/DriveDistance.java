@@ -2,7 +2,7 @@ package com.team766.lib.Messages;
 
 import lib.Message;
 
-public class DriveDistance extends Message{
+public class DriveDistance implements Message{
 	
 	private double distance;
 	private double angle;

@@ -4,7 +4,7 @@ import trajectory.AutoPaths;
 import trajectory.Path;
 import lib.Message;
 
-public class DrivePath extends Message{
+public class DrivePath implements Message{
 	
 	private Path path;
 	

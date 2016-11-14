@@ -2,7 +2,7 @@ package com.team766.lib.Messages;
 
 import lib.Message;
 
-public class DriveTo extends Message{
+public class DriveTo implements Message{
 
 	private double heading,
 				   xDist,
