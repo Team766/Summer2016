@@ -47,7 +47,7 @@ public class Robot implements MyRobot {
 		AutoPaths.loadPaths();
 		System.out.println("IM ALIVE!!");
 		
-		new Thread(new HTTPServer(Constants.AUTONS)).start();;
+		new Thread(new HTTPServer(Constants.AUTONS)).start();
 		
 		prevTime = System.currentTimeMillis();
     }

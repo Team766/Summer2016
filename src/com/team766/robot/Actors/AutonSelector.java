@@ -4,6 +4,7 @@ import lib.Actor;
 import lib.LogFactory;
 import lib.Scheduler;
 
+import com.team766.lib.Messages.DriveDistance;
 import com.team766.lib.Messages.DrivePath;
 import com.team766.lib.Messages.DriveStatusUpdate;
 import com.team766.robot.Constants;
@@ -23,16 +24,14 @@ public class AutonSelector extends Actor{
 	
 	@Override
 	public void run() {
-//		for(int i = 0; i < 4; i++){
-//			waitForMessage(new DriveDistance(90, 0), DriveStatusUpdate.class);
-//			sleep();
-//			waitForMessage(new DriveDistance(0, 6.0), DriveStatusUpdate.class);
-//			sleep();
-//		}
 		switch(Constants.AUTONS[autonMode]){
 			case "None":
 				System.out.println("Auton: None");
 				LogFactory.getInstance("General").print("Auton: None");
+				break;
+			case "Inside Lane Path":
+				System.out.println("Auton: Inside Lane Path");
+				waitForMessage(new DrivePath("InsideLanePathFar"), DriveStatusUpdate.class);
 				break;
 			default:
 				System.out.println("Auton: Failed to select auton");
@@ -40,8 +39,6 @@ public class AutonSelector extends Actor{
 				break;
 		}
 		
-		waitForMessage(new DrivePath("InsideLanePathFar"), DriveStatusUpdate.class);
-	
 		Scheduler.getInstance().remove(this);
 	}
 	

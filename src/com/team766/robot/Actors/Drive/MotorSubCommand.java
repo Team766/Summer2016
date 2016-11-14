@@ -17,15 +17,15 @@ public class MotorSubCommand extends Drive implements SubActor{
 	@Override
 	public void update() {
 		switch(command.getMotor()){
-		case leftDrive:
-			leftMotor.set(command.getValue());
-			break;
-		case rightDrive:
-			rightMotor.set(command.getValue());
-			break;
-		default:
-			System.out.println("Motor not recognized!");
-			break;
+			case leftDrive:
+				leftMotor.set(command.getValue());
+				break;
+			case rightDrive:
+				rightMotor.set(command.getValue());
+				break;
+			default:
+				System.out.println("Motor not recognized!");
+				break;
 		}
 		
 		//Only need to run once to set the motors

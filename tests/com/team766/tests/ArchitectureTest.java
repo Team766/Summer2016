@@ -30,7 +30,7 @@ public class ArchitectureTest extends RobotTestCase{
 
 		assertTrueTimed(() -> {return ((TestActor)(Scheduler.getInstance().getActor(TestActor.class))).onToNextMessage;}, 2);
 	}
-	
+		
 	private class TestActor extends Actor{
 		public boolean onToNextMessage = false;
 		
