@@ -21,6 +21,9 @@ public class Robot implements MyRobot {
 	private boolean autonDone = false;
 	private boolean teleopDone = false;
 	
+	private final long RUN_TIME = 10;
+	private long lastSleepTime = 0;
+	
 	public enum GameState{
 		Teleop,
 		Disabled,
@@ -55,6 +58,7 @@ public class Robot implements MyRobot {
     public void autonomousInit() {
     	LogFactory.getInstance("General").print("Auton Init");
     	setState(GameState.Auton);
+    	emptyInboxes();
     	Scheduler.getInstance().add(new AutonSelector(Constants.getAutonMode()));
     	
     	autonDone = true;
@@ -65,16 +69,19 @@ public class Robot implements MyRobot {
 //    		System.out.println(Scheduler.getInstance().getCountsPerSecond());
     		prevTime = System.currentTimeMillis();
     	}
+    	sleep();
     }
     
     public void teleopInit() {
     	LogFactory.getInstance("General").print("Teleop Init");
     	setState(GameState.Teleop);
+    	emptyInboxes();
 		Scheduler.getInstance().add(new OperatorControl());
 		teleopDone = true;
 	}
 
     public void teleopPeriodic() {
+    	sleep();
     }
     
     public void disabledInit() {
@@ -98,5 +105,16 @@ public class Robot implements MyRobot {
 	
 	public void startCompetition(){
 		System.out.println("Wrong one...close enough?");
+	}
+	
+	private void emptyInboxes(){
+		Scheduler.getInstance().getActor(Drive.class).clearInbox();
+	}
+	
+	private void sleep(){
+		//Run loops at set speed
+		while(System.currentTimeMillis() - lastSleepTime <= RUN_TIME);
+		
+		lastSleepTime = System.currentTimeMillis();
 	}
 }

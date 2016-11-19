@@ -72,7 +72,7 @@ public class Drive extends Actor{
 			//Check for new messages
 			if(newMessage()){
 				System.out.println("Inbox: " + getInbox().size());
-				LogFactory.getInstance("General").print("DRIVE MESSAGES: " + getInbox().size());
+//				LogFactory.getInstance("General").print("DRIVE MESSAGES: " + getInbox().size());
 				if(currentCommand != null)
 					currentCommand.stop();
 				
@@ -81,9 +81,7 @@ public class Drive extends Actor{
 				currentMessage = readMessage();
 				if(currentMessage == null)
 					break;
-				
-				LogFactory.getInstance("General").print("Message \t" + currentMessage.toString());
-				
+								
 				if(currentMessage instanceof MotorCommand)
 					currentCommand = new MotorSubCommand(currentMessage);
 				else if(currentMessage instanceof DriveTo)
@@ -94,9 +92,7 @@ public class Drive extends Actor{
 					currentCommand = new CheesyDriveCommand(currentMessage);
 				else if(currentMessage instanceof DrivePath)
 					currentCommand = new DrivePathCommand(currentMessage);
-				
-				LogFactory.getInstance("General").print("Current Drive Command: " + currentCommand.toString());
-				
+								
 				//Reset Control loops
 				resetControlLoops();
 			}
