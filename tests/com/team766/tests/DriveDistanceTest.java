@@ -25,7 +25,7 @@ public class DriveDistanceTest extends RobotTestCase{
 	@Test
 	public void testDriveForward() throws Exception{
 		try {
-			Scheduler.getInstance().sendMessage(new DriveTo(0, distance, 0));
+			Scheduler.getInstance().sendMessage(new DriveTo(0, 0, distance));
 		} catch (InterruptedException e) {
 			System.out.println("Failed to send DriveTo() in Test");
 			e.printStackTrace();

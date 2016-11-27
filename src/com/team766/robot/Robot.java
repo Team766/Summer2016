@@ -76,6 +76,9 @@ public class Robot implements MyRobot {
     	LogFactory.getInstance("General").print("Teleop Init");
     	setState(GameState.Teleop);
     	emptyInboxes();
+    	
+    	Scheduler.getInstance().remove(AutonSelector.class);
+    	
 		Scheduler.getInstance().add(new OperatorControl());
 		teleopDone = true;
 	}

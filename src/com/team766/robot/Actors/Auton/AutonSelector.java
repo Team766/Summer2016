@@ -46,8 +46,6 @@ public class AutonSelector extends Actor{
 				LogFactory.getInstance("General").print("Auton: Failed to select auton");
 				break;
 		}
-		
-		Scheduler.getInstance().remove(this);
 	}
 	
 	public void step(){

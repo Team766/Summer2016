@@ -54,4 +54,5 @@ public class ArchitectureTest extends RobotTestCase{
 		}
 		
 	}
+
 }

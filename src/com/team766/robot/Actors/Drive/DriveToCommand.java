@@ -15,13 +15,17 @@ public class DriveToCommand extends Drive implements SubActor{
 	
 	@Override
 	public void update() {
-		if(avgDist() < command.getXDist()){
+		if(avgDist() < command.getXDist() || avgDist() < command.getYDist()){
 			System.out.println("Driving values!");
 			if(command.getHeading() > 0){
 				setLeft(0.5);
 				setRight(-0.5);
-			}else{
+			}else if(command.getHeading() < 0){
 				setLeft(-0.5);
+				setRight(0.5);
+			}
+			else{
+				setLeft(0.5);
 				setRight(0.5);
 			}
 		}else{

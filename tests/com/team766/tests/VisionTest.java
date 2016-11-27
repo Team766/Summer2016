@@ -26,17 +26,18 @@ public class VisionTest extends RobotTestCase{
 	
 	@Test
 	public void testAuton() throws Exception{
+		Scheduler.getInstance().add(new AutonSelector(0));
+		
 		new Thread(new Runnable(){
 			@Override
 			public void run() {
-				Scheduler.getInstance().add(new AutonSelector(0));
-				
 				((AutonSelector)(Scheduler.getInstance().getActor(AutonSelector.class))).targetWithVision();
 			}
 		}).start();
 		
 		//Target Forward and to the camera's right
 		Scheduler.getInstance().sendMessage(new VisionStatusUpdate(15, 5));
+		System.out.println("Checking!");
 		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getLeftMotor()).get() > 0;}, 2);
 		assertTrueTimed(() -> {return instance.getMotor(ConfigFile.getRightMotor()).get() <= 0;}, 2);
 		
