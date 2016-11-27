@@ -6,9 +6,9 @@ import lib.Scheduler;
 import lib.LogFactory;
 import trajectory.AutoPaths;
 
-import com.team766.robot.Actors.AutonSelector;
 import com.team766.robot.Actors.OperatorControl;
 import com.team766.robot.Actors.Vision;
+import com.team766.robot.Actors.Auton.AutonSelector;
 import com.team766.robot.Actors.Drive.Drive;
 
 /**

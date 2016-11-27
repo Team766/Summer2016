@@ -1,10 +1,11 @@
 package com.team766.robot.Actors;
 
+import org.opencv.core.Mat;
+
 import interfaces.CameraReader;
 import lib.Actor;
 
-import org.opencv.core.Mat;
-
+import com.team766.lib.Messages.VisionStatusUpdate;
 import com.team766.robot.HardwareProvider;
 
 public class Vision extends Actor{
@@ -26,12 +27,22 @@ public class Vision extends Actor{
 			img = axisCam.getImage();
 			if(img == null)
 				continue;
-			
+		
 			//Begin processing image below
+			
+			sendMessage(new VisionStatusUpdate(getAngle(), getDist()));
 		}
 	}
 	
 	public void step(){
+	}
+	
+	public double getAngle(){
+		return 0;
+	}
+	
+	public double getDist(){
+		return 0;
 	}
 
 	@Override

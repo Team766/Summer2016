@@ -71,7 +71,7 @@ public class Drive extends Actor{
 		while(true){			
 			//Check for new messages
 			if(newMessage()){
-				System.out.println("Inbox: " + getInbox().size());
+				//System.out.println("Inbox: " + getInbox().size());
 //				LogFactory.getInstance("General").print("DRIVE MESSAGES: " + getInbox().size());
 				if(currentCommand != null)
 					currentCommand.stop();
@@ -129,7 +129,7 @@ public class Drive extends Actor{
 			leftVel = (leftDist() - lastLeftDist) / (System.currentTimeMillis()/1000 - lastVelTime);
 			rightVel = (rightDist() - lastRightDist) / (System.currentTimeMillis()/1000 - lastVelTime);
 			
-			System.out.printf("%f\t%f\t%f\n", avgLinearRate(), rightVel, rightVel);
+			//System.out.printf("%f\t%f\t%f\n", avgLinearRate(), rightVel, rightVel);
 			
 			lastLeftDist = leftDist();
 			lastRightDist = rightDist();
