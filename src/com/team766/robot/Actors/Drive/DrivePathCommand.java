@@ -17,7 +17,9 @@ import com.team766.robot.Constants;
 public class DrivePathCommand extends Drive implements SubActor {
 
 	private DrivePath command;
-
+	
+	double angleDiff = 0;
+	
 	double heading;
 	Path path;
 
@@ -32,8 +34,6 @@ public class DrivePathCommand extends Drive implements SubActor {
 		command = (DrivePath) m;
 		path = command.getPath();
 		
-		LogFactory.getInstance("General").print("In constructor");
-		
 		init();
 	}
 
@@ -42,8 +42,8 @@ public class DrivePathCommand extends Drive implements SubActor {
 //		followerLeft.configure(1.5, 0, 0, 1.0 / 15.0, 1.0 / 34.0);
 //		followerRight.configure(1.5, 0, 0, 1.0 / 15.0, 1.0 / 34.0);
 		
-		followerLeft.configure(0.05, 0, 0, 0, 0);
-		followerRight.configure(0.05, 0, 0, 0, 0);
+		followerLeft.configure(0.05, 0, 0, 0, 0.005);
+		followerRight.configure(0.05, 0, 0, 0, 0.005);
 		
 		resetEncoders();
 
@@ -53,7 +53,6 @@ public class DrivePathCommand extends Drive implements SubActor {
 	}
 
 	public void update() {
-		LogFactory.getInstance("General").print("Auton: Running Drive Path");
 		// We need to set the Trajectory each update as it may have been flipped
 		// from under us
 		loadProfileNoReset(path.getLeftWheelTrajectory(),
@@ -78,7 +77,7 @@ public class DrivePathCommand extends Drive implements SubActor {
 
 			double angleDiffRads = getDifferenceInAngleRadians(observedHeading,
 					goalHeading);
-			double angleDiff = Math.toDegrees(angleDiffRads);
+			angleDiff = Math.toDegrees(angleDiffRads);
 
 			double turn = kTurn * angleDiff;
 			setLeft(speedLeft + turn);
@@ -93,7 +92,7 @@ public class DrivePathCommand extends Drive implements SubActor {
 	}
 
 	public boolean onTarget() {
-		return followerLeft.isFinishedTrajectory();
+		return followerLeft.isFinishedTrajectory() && Math.abs(angleDiff) < 5;
 	}
 
 	public void loadProfile(Trajectory leftProfile, Trajectory rightProfile,

@@ -29,6 +29,8 @@ public class Vision extends Actor{
 				continue;
 		
 			//Begin processing image below
+			//displayInText(img);
+			//System.out.println("(" + img.get(10, 10)[0] + "," + img.get(10, 10)[1] + ", " + img.get(10, 10)[2] + ")");
 			
 			sendMessage(new VisionStatusUpdate(getAngle(), getDist()));
 		}
@@ -48,6 +50,17 @@ public class Vision extends Actor{
 	@Override
 	public String toString(){
 		return "Actor:\tVision";
+	}
+	
+	private void displayInText(Mat img){
+		for(int i = 0; i < img.rows(); i += 5){
+			for(int j = 0; j < img.cols(); j += 5){
+				System.out.print((img.get(i, j)[0] == 122 && img.get(i, j)[1] == 78 && img.get(i, j)[2] == 49) ? 1 : 0);
+			}
+			System.out.println();
+		}
+		
+		System.out.println("\n\n\n");
 	}
 
 }
