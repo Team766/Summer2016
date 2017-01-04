@@ -1,6 +1,7 @@
 package com.team766.robot;
 
 import interfaces.MyRobot;
+import lib.ConstantsFileReader;
 import lib.HTTPServer;
 import lib.Scheduler;
 import lib.LogFactory;
@@ -44,6 +45,9 @@ public class Robot implements MyRobot {
 	public void robotInit() {
 		LogFactory.createInstance("General");
 		
+		//Load in constants
+		ConstantsFileReader.getInstance();
+		
 		Scheduler.getInstance().add(new Drive());
 		Scheduler.getInstance().add(new Vision());
 		
@@ -59,7 +63,8 @@ public class Robot implements MyRobot {
     	LogFactory.getInstance("General").print("Auton Init");
     	setState(GameState.Auton);
     	emptyInboxes();
-    	Scheduler.getInstance().add(new AutonSelector(Constants.getAutonMode()));
+//    	Scheduler.getInstance().add(new AutonSelector(Constants.getAutonMode()));
+    	Scheduler.getInstance().add(new AutonSelector((int)ConstantsFileReader.getInstance().get("AutonMode")));
     	
     	autonDone = true;
     }
@@ -90,6 +95,9 @@ public class Robot implements MyRobot {
     public void disabledInit() {
     	LogFactory.getInstance("General").print("Robot Disabled");
     	setState(GameState.Disabled);
+    	
+    	//Update Constants
+    	ConstantsFileReader.getInstance().loadConstants();
     	
     	if(autonDone && teleopDone){
 			LogFactory.closeFiles();

@@ -1,7 +1,7 @@
-leftMotor,11
-rightMotor,10
-leftEncoder,16,17
-rightEncoder,14,15
+leftMotor,10
+rightMotor,11
+leftEncoder,10,17
+rightEncoder,11,15
 driveShifter,0
 gyro,12
 axisCamera,10.7.66.11
