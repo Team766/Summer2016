@@ -25,8 +25,9 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 		startTime = System.currentTimeMillis()/1000;
 	}
 	
+	//Values: {avgLinearRate(), leftRate(), rightRate(), avgDist(), leftDist(), rightDist()}
 	@Override
-	public void update() {
+	public void update(double[] values) {
 		if(!doneTurning){
 			anglePID.calculate(gyro.getAngle(), true);
 			
@@ -36,7 +37,7 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 				
 				setDrive(0.0);
 				
-				distancePID.setSetpoint(avgDist() + command.getDistance());
+				distancePID.setSetpoint(values[3] + command.getDistance());
 				switchAngleGains(false);
 				startTime = System.currentTimeMillis() / 1000;
 			}
@@ -48,7 +49,7 @@ public class DriveDistanceCommand extends Drive implements SubActor{
 		}else{
 //			System.out.println("Left: " + leftDist() + "\tRight: " + rightDist() + "\tERR: " + distancePID.getCurrentError());
 			
-			distancePID.calculate(avgDist(), true);
+			distancePID.calculate(values[3], true);
 			anglePID.calculate(gyro.getAngle(), true);
 			
 			if(command.getDistance() == 0 || (distancePID.isDone() && Math.abs(avgLinearRate()) < Constants.MAX_STOPPING_VEL)){

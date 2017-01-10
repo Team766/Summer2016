@@ -87,7 +87,8 @@ public class Drive extends Actor{
 				else if(currentMessage instanceof DriveTo)
 					currentCommand = new DriveToCommand(currentMessage);
 				else if(currentMessage instanceof DriveDistance)
-					currentCommand = new DriveDistanceCommand(currentMessage);
+					//currentCommand = new DriveDistanceCommand(currentMessage);
+					currentCommand = new DriveProfilerCommand(currentMessage);
 				else if(currentMessage instanceof CheesyDrive)
 					currentCommand = new CheesyDriveCommand(currentMessage);
 				else if(currentMessage instanceof DrivePath)
@@ -117,28 +118,28 @@ public class Drive extends Actor{
 				commandFinished = true;
 				currentCommand = null;
 			}else{
-				currentCommand.update();
+				currentCommand.update(new double[]{avgLinearRate(), leftRate(), rightRate(), avgDist(), leftDist(), rightDist()});
 			}
 		}
 	}
 	
 	
 	private void updateVelocities(){
-		if(System.currentTimeMillis()/1000 - lastVelTime > 0.5){
+		if(System.currentTimeMillis()/1000.0 - lastVelTime > 0.1){
 			
-			leftVel = (leftDist() - lastLeftDist) / (System.currentTimeMillis()/1000 - lastVelTime);
-			rightVel = (rightDist() - lastRightDist) / (System.currentTimeMillis()/1000 - lastVelTime);
+			leftVel = (leftDist() - lastLeftDist) / (System.currentTimeMillis()/1000.0 - lastVelTime);
+			rightVel = (rightDist() - lastRightDist) / (System.currentTimeMillis()/1000.0 - lastVelTime);
 			
 			//System.out.printf("%f\t%f\t%f\n", avgLinearRate(), rightVel, rightVel);
 			
 			lastLeftDist = leftDist();
 			lastRightDist = rightDist();
-			lastVelTime = System.currentTimeMillis()/1000;
+			lastVelTime = System.currentTimeMillis()/1000.0;
 		}
 	}
 	
 	private void updateLocation(){
-		if(System.currentTimeMillis()/1000 - lastPosTime > 0.25){
+		if(System.currentTimeMillis()/1000.0 - lastPosTime > 0.25){
 			currHeading = Math.toRadians(gyro.getAngle());
 			
 			xPos += (Math.cos(currHeading) + Math.cos(lastHeading)) * avgDist() / 2.0;
@@ -149,16 +150,16 @@ public class Drive extends Actor{
 		}
 	}
 	
-	public double avgLinearRate(){
+	protected double avgLinearRate(){
 		return (leftRate() + rightRate()) / 2.0;
-//		return (leftEncoder.getRate() + rightEncoder.getRate())/2.0;
+		//return (leftEncoder.getRate() + rightEncoder.getRate())/2.0;
 	}
 	
-	public double leftRate(){
+	protected double leftRate(){
 		return leftVel;
 	}
 	
-	public double rightRate(){
+	protected double rightRate(){
 		return rightVel;
 	}
 	

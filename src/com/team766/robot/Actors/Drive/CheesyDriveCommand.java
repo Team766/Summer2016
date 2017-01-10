@@ -14,13 +14,14 @@ public class CheesyDriveCommand extends Drive implements SubActor{
 		command = (CheesyDrive)message;
 	}
 	
+	//Values: {avgLinearRate(), leftRate(), rightRate(), avgDist(), leftDist(), rightDist()}
 	@Override
-	public void update() {
+	public void update(double[] values) {
 		angularVelocity.setSetpoint(command.getAngularVelocity() * (Constants.maxAngularVelocity));
 		linearVelocity.setSetpoint(command.getLinearVelocity() * (Constants.maxLinearVelocity));
 		
 		angularVelocity.calculate(gyro.getRate(), true);
-		linearVelocity.calculate(avgLinearRate(), true);
+		linearVelocity.calculate(values[0], true);
 
 		
 		if(!command.getQuickTurn()){

@@ -41,7 +41,7 @@ public abstract class Constants extends RobotValues{
 	public static final double k_driveAngularI = 0.0008;
 	public static final double k_driveAngularD = 0.0;
 	
-	public static final double k_linearP = 1.0;//1/maxLinearVelocity;
+	public static final double k_linearP = 0.5;//1/maxLinearVelocity;
 	public static final double k_linearI = 0.00;
 	public static final double k_linearD = 0.00;
 	public static final double k_linearThresh = 0.01;

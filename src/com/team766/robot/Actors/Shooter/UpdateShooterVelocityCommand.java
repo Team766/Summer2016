@@ -14,7 +14,7 @@ public class UpdateShooterVelocityCommand extends Shooter implements SubActor{
 		velocityPID.reset();
 	}
 	
-	public void update(){
+	public void update(double[] values){
 		velocityPID.calculate(encoder.get(), false);
 		motor.set(velocityPID.getOutput());
 		

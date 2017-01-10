@@ -10,6 +10,8 @@ import com.team766.robot.HardwareProvider;
 
 public class Vision extends Actor{
 	
+	private final long RUN_TIME = 70;
+	
 	CameraReader axisCam = HardwareProvider.getInstance().getAxisCamera();
 	CameraReader usbCam = HardwareProvider.getInstance().getUSBCamera();
 	
@@ -22,7 +24,7 @@ public class Vision extends Actor{
 		Mat img;
 		while(true){
 			itsPerSec++;
-			sleep();
+			sleep(RUN_TIME);
 	
 			img = axisCam.getImage();
 			if(img == null)

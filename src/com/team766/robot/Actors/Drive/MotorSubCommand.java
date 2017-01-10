@@ -14,8 +14,9 @@ public class MotorSubCommand extends Drive implements SubActor{
 		done = false;
 	}
 	
+	//Values: {avgLinearRate(), leftRate(), rightRate(), avgDist(), leftDist(), rightDist()}
 	@Override
-	public void update() {
+	public void update(double[] values) {
 		switch(command.getMotor()){
 			case leftDrive:
 				leftMotor.set(command.getValue());

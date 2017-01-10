@@ -52,7 +52,8 @@ public class DrivePathCommand extends Drive implements SubActor {
 
 	}
 
-	public void update() {
+	//Values: {avgLinearRate(), leftRate(), rightRate(), avgDist(), leftDist(), rightDist()}
+	public void update(double[] values) {
 		// We need to set the Trajectory each update as it may have been flipped
 		// from under us
 		loadProfileNoReset(path.getLeftWheelTrajectory(),
@@ -62,8 +63,8 @@ public class DrivePathCommand extends Drive implements SubActor {
 			setDrive(0.0);
 			done = true;
 		} else {
-			double distanceL = direction * leftDist();
-			double distanceR = direction * rightDist();
+			double distanceL = direction * values[4];
+			double distanceR = direction * values[5];
 			System.out.println("DistanceL:" + distanceL);
 			System.out.println("DistanceR:" + distanceR + "\n");
 

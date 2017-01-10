@@ -3,10 +3,8 @@ package com.team766.robot.Actors.Auton;
 import lib.Actor;
 import lib.LogFactory;
 import lib.Message;
-import lib.Scheduler;
 
 import com.team766.lib.Messages.DriveDistance;
-import com.team766.lib.Messages.DrivePath;
 import com.team766.lib.Messages.DriveStatusUpdate;
 import com.team766.lib.Messages.DriveTo;
 import com.team766.lib.Messages.VisionStatusUpdate;
@@ -35,11 +33,13 @@ public class AutonSelector extends Actor{
 				break;
 			case "Inside Lane Path":
 				System.out.println("Auton: Inside Lane Path");
-				waitForMessage(new DrivePath("InsideLanePathFar"), DriveStatusUpdate.class);
+//				waitForMessage(new DrivePath("InsideLanePathFar"), DriveStatusUpdate.class);
+//				waitForMessage(new DrivePath("StraightAheadPath"), DriveStatusUpdate.class);
+				waitForMessage(new DriveDistance(0, -5), DriveStatusUpdate.class);
 				break;
 			case "Low Bar":
 				System.out.println("Auton: Low Bar");
-				new LowBar(autonMode).update();
+				new LowBar(autonMode).update(new double[0]);
 				break;
 			default:
 				System.out.println("Auton: Failed to select auton");

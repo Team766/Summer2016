@@ -61,7 +61,7 @@ public class Shooter extends Actor{
 				commandFinished = true;
 				currentCommand = null;
 			}else{
-				currentCommand.update();
+				currentCommand.update(new double[0]);
 			}
 		}
 	}

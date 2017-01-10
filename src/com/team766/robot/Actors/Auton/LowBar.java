@@ -10,7 +10,7 @@ public class LowBar extends AutonSelector implements SubActor{
 	}
 
 	@Override
-	public void update() {
+	public void update(double[] values) {
 		storeIntake();
 		targetWithVision();
 	}
