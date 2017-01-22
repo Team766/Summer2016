@@ -39,13 +39,17 @@ public class AutonSelector extends Actor{
 				break;
 			case "Low Bar":
 				System.out.println("Auton: Low Bar");
-				new LowBar(autonMode).update(new double[0]);
+				new LowBar().update();
 				break;
 			default:
 				System.out.println("Auton: Failed to select auton");
 				LogFactory.getInstance("General").print("Auton: Failed to select auton");
 				break;
 		}
+	}
+	
+	public void updateMode(int mode){
+		autonMode = mode;
 	}
 	
 	public void step(){

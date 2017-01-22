@@ -1,27 +1,33 @@
 package com.team766.robot.Actors.Shooter;
 
-import com.team766.lib.Messages.UpdateShooterVelocity;
-
-import interfaces.SubActor;
 import lib.Message;
 
-public class UpdateShooterVelocityCommand extends Shooter implements SubActor{
+import com.team766.lib.CommandBase;
+import com.team766.lib.Messages.UpdateShooterVelocity;
+
+public class UpdateShooterVelocityCommand extends CommandBase{
 
 	UpdateShooterVelocity command;
+	private boolean done;
 	
 	public UpdateShooterVelocityCommand(Message m){
 		command = (UpdateShooterVelocity)m;
-		velocityPID.reset();
+		Shooter.velocityPID.reset();
+		done = false;
 	}
 	
-	public void update(double[] values){
-		velocityPID.calculate(encoder.get(), false);
-		motor.set(velocityPID.getOutput());
-		
+	public void update(){
+		Shooter.velocityPID.calculate(Shooter.getEncoder(), false);
+		Shooter.setMotor(Shooter.velocityPID.getOutput());
+		done = true;
 	}
 
 	public void stop() {
-		
+	}
+
+	@Override
+	public boolean isDone() {
+		return done;
 	}
 
 }

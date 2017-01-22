@@ -1,22 +1,26 @@
 package com.team766.robot.Actors.Auton;
 
-import interfaces.SubActor;
+import com.team766.lib.CommandBase;
 
 
-public class LowBar extends AutonSelector implements SubActor{
+public class LowBar extends CommandBase{
 
-	public LowBar(int mode) {
-		super(mode);
+	public LowBar() {
 	}
 
 	@Override
-	public void update(double[] values) {
-		storeIntake();
-		targetWithVision();
+	public void update() {
+		Auton.storeIntake();
+		Auton.targetWithVision();
 	}
 
 	@Override
 	public void stop() {
+	}
+
+	@Override
+	public boolean isDone() {
+		return false;
 	}
 
 }

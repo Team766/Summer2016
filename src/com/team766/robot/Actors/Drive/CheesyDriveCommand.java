@@ -1,42 +1,48 @@
 package com.team766.robot.Actors.Drive;
 
-import interfaces.SubActor;
 import lib.Message;
 
+import com.team766.lib.CommandBase;
 import com.team766.lib.Messages.CheesyDrive;
 import com.team766.robot.Constants;
 
-public class CheesyDriveCommand extends Drive implements SubActor{
+public class CheesyDriveCommand extends CommandBase{
 
 	CheesyDrive command;
 	
+	private boolean done;
+	
 	public CheesyDriveCommand(Message message){
 		command = (CheesyDrive)message;
+		done = false;
 	}
-	
-	//Values: {avgLinearRate(), leftRate(), rightRate(), avgDist(), leftDist(), rightDist()}
-	@Override
-	public void update(double[] values) {
-		angularVelocity.setSetpoint(command.getAngularVelocity() * (Constants.maxAngularVelocity));
-		linearVelocity.setSetpoint(command.getLinearVelocity() * (Constants.maxLinearVelocity));
+
+	public void update() {
+		Drive.angularVelocity.setSetpoint(command.getAngularVelocity() * (Constants.maxAngularVelocity));
+		Drive.linearVelocity.setSetpoint(command.getLinearVelocity() * (Constants.maxLinearVelocity));
 		
-		angularVelocity.calculate(gyro.getRate(), true);
-		linearVelocity.calculate(values[0], true);
+		Drive.angularVelocity.calculate(Drive.getAngularRate(), true);
+		Drive.linearVelocity.calculate(Drive.avgLinearRate(), true);
 
 		
 		if(!command.getQuickTurn()){
-			leftMotor.set(linearVelocity.getOutput() + angularVelocity.getOutput());
-			rightMotor.set(linearVelocity.getOutput() - angularVelocity.getOutput());
+			Drive.setLeft(Drive.linearVelocity.getOutput() + Drive.angularVelocity.getOutput());
+			Drive.setRight(Drive.linearVelocity.getOutput() - Drive.angularVelocity.getOutput());
 		}else{
-			leftMotor.set(angularVelocity.getOutput());
-			rightMotor.set(-angularVelocity.getOutput());
+			Drive.setLeft(Drive.angularVelocity.getOutput());
+			Drive.setRight(-Drive.angularVelocity.getOutput());
 		}
 		
-		done = false;
+		done = true;
 	}
 
 	@Override
 	public void stop() {
+	}
+
+	@Override
+	public boolean isDone() {
+		return done;
 	}
 
 }

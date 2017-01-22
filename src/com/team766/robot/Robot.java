@@ -3,10 +3,11 @@ package com.team766.robot;
 import interfaces.MyRobot;
 import lib.ConstantsFileReader;
 import lib.HTTPServer;
-import lib.Scheduler;
 import lib.LogFactory;
+import lib.Scheduler;
 import trajectory.AutoPaths;
 
+import com.team766.lib.CommandBase;
 import com.team766.robot.Actors.OperatorControl;
 import com.team766.robot.Actors.Vision;
 import com.team766.robot.Actors.Auton.AutonSelector;
@@ -43,6 +44,7 @@ public class Robot implements MyRobot {
     }
 	
 	public void robotInit() {
+		CommandBase.init();
 		LogFactory.createInstance("General");
 		
 		//Load in constants
@@ -63,8 +65,8 @@ public class Robot implements MyRobot {
     	LogFactory.getInstance("General").print("Auton Init");
     	setState(GameState.Auton);
     	emptyInboxes();
-//    	Scheduler.getInstance().add(new AutonSelector(Constants.getAutonMode()));
-    	Scheduler.getInstance().add(new AutonSelector((int)ConstantsFileReader.getInstance().get("AutonMode")));
+    	Scheduler.getInstance().add(new AutonSelector(Constants.getAutonMode()));
+//    	Scheduler.getInstance().add(new AutonSelector((int)ConstantsFileReader.getInstance().get("AutonMode")));
     	
     	autonDone = true;
     }

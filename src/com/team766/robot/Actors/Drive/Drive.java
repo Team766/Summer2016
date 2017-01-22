@@ -118,7 +118,7 @@ public class Drive extends Actor{
 				commandFinished = true;
 				currentCommand = null;
 			}else{
-				currentCommand.update(new double[]{avgLinearRate(), leftRate(), rightRate(), avgDist(), leftDist(), rightDist()});
+				currentCommand.update();
 			}
 		}
 	}
@@ -173,6 +173,10 @@ public class Drive extends Actor{
 	
 	protected double rightDist(){
 		return leftEncoder.getRaw() / Constants.counts_per_rev * Constants.wheel_circumference;
+	}
+	
+	public double getAngularRate(){
+		return gyro.getRate();
 	}
 	
 	protected void setDrive(double power){

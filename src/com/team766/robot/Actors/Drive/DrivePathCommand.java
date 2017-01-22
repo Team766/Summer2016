@@ -1,24 +1,25 @@
 package com.team766.robot.Actors.Drive;
 
-import interfaces.SubActor;
 import lib.LogFactory;
 import lib.Message;
 import trajectory.Path;
 import trajectory.Trajectory;
 import trajectory.TrajectoryFollower;
 
+import com.team766.lib.CommandBase;
 import com.team766.lib.Messages.DrivePath;
-import com.team766.robot.Constants;
 
 /**
  * DrivePathAction causes the robot to drive along a Path
  *
  */
-public class DrivePathCommand extends Drive implements SubActor {
+public class DrivePathCommand extends CommandBase {
 
 	private DrivePath command;
 	
 	double angleDiff = 0;
+	
+	boolean done;
 	
 	double heading;
 	Path path;
@@ -34,10 +35,10 @@ public class DrivePathCommand extends Drive implements SubActor {
 		command = (DrivePath) m;
 		path = command.getPath();
 		
-		init();
+		start();
 	}
 
-	public void init() {
+	public void start() {
 
 //		followerLeft.configure(1.5, 0, 0, 1.0 / 15.0, 1.0 / 34.0);
 //		followerRight.configure(1.5, 0, 0, 1.0 / 15.0, 1.0 / 34.0);
@@ -45,7 +46,7 @@ public class DrivePathCommand extends Drive implements SubActor {
 		followerLeft.configure(0.05, 0, 0, 0, 0.005);
 		followerRight.configure(0.05, 0, 0, 0, 0.005);
 		
-		resetEncoders();
+		Drive.resetEncoders();
 
 		loadProfile(path.getLeftWheelTrajectory(),
 				path.getRightWheelTrajectory(), 1.0, 0.0);
@@ -53,18 +54,18 @@ public class DrivePathCommand extends Drive implements SubActor {
 	}
 
 	//Values: {avgLinearRate(), leftRate(), rightRate(), avgDist(), leftDist(), rightDist()}
-	public void update(double[] values) {
+	public void update() {
 		// We need to set the Trajectory each update as it may have been flipped
 		// from under us
 		loadProfileNoReset(path.getLeftWheelTrajectory(),
 				path.getRightWheelTrajectory());
 
 		if (onTarget()) {
-			setDrive(0.0);
+			Drive.setDrive(0.0);
 			done = true;
 		} else {
-			double distanceL = direction * values[4];
-			double distanceR = direction * values[5];
+			double distanceL = direction * Drive.leftDist();
+			double distanceR = direction * Drive.rightDist();
 			System.out.println("DistanceL:" + distanceL);
 			System.out.println("DistanceR:" + distanceR + "\n");
 
@@ -74,15 +75,15 @@ public class DrivePathCommand extends Drive implements SubActor {
 			 System.out.println("SpeedRight:" + speedRight + "\n");
 
 			double goalHeading = followerLeft.getHeading();
-			double observedHeading = getGyroAngleInRadians();
+			double observedHeading = Drive.getGyroAngleInRadians();
 
 			double angleDiffRads = getDifferenceInAngleRadians(observedHeading,
 					goalHeading);
 			angleDiff = Math.toDegrees(angleDiffRads);
 
 			double turn = kTurn * angleDiff;
-			setLeft(speedLeft + turn);
-			setRight(speedRight - turn);
+			Drive.setLeft(speedLeft + turn);
+			Drive.setRight(speedRight - turn);
 		}
 	}
 
@@ -108,7 +109,7 @@ public class DrivePathCommand extends Drive implements SubActor {
 	public void reset() {
 		followerLeft.reset();
 		followerRight.reset();
-		resetEncoders();
+		Drive.resetEncoders();
 	}
 
 	public double getDifferenceInAngleRadians(double from, double to) {
@@ -126,8 +127,12 @@ public class DrivePathCommand extends Drive implements SubActor {
 		return angle;
 	}
 
-	@Override
 	public void stop() {
-		setDrive(0.0);
+		Drive.setDrive(0.0);
+	}
+
+	@Override
+	public boolean isDone() {
+		return done;
 	}
 }

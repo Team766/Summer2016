@@ -61,9 +61,17 @@ public class Shooter extends Actor{
 				commandFinished = true;
 				currentCommand = null;
 			}else{
-				currentCommand.update(new double[0]);
+				currentCommand.update();
 			}
 		}
+	}
+	
+	protected void setMotor(double speed){
+		motor.set(speed);
+	}
+	
+	protected double getEncoder(){
+		return encoder.get();
 	}
 	
 	protected double getRate(){

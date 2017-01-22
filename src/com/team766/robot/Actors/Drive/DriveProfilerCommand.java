@@ -1,11 +1,11 @@
 package com.team766.robot.Actors.Drive;
 
-import interfaces.SubActor;
 import lib.Message;
 
+import com.team766.lib.CommandBase;
 import com.team766.lib.Messages.DriveDistance;
 
-public class DriveProfilerCommand extends Drive implements SubActor{
+public class DriveProfilerCommand extends CommandBase{
 
 	DriveDistance command;
 	
@@ -18,6 +18,8 @@ public class DriveProfilerCommand extends Drive implements SubActor{
 	double position = 0;
 	double idealPosition = 0;
 	double direction;
+	
+	boolean done;
 	
 	//States
 	enum State{
@@ -39,8 +41,8 @@ public class DriveProfilerCommand extends Drive implements SubActor{
 	
 	//Values: {avgLinearRate(), leftRate(), rightRate(), avgDist(), leftDist(), rightDist()}
 	@Override
-	public void update(double[] values) {
-		position += values[0] * kDt;
+	public void update() {
+		position += Drive.avgLinearRate() * kDt;
 		
 		switch(state_){
 			case RAMP_UP:
@@ -65,23 +67,23 @@ public class DriveProfilerCommand extends Drive implements SubActor{
 				break;
 		}
 		
-		if((Math.abs(goal) - Math.abs(position) <= distToStop(values[0])) && (state_ != State.LOCK)){
+		if((Math.abs(goal) - Math.abs(position) <= distToStop(Drive.avgLinearRate())) && (state_ != State.LOCK)){
 			state_ = State.RAMP_DOWN;
 		}
 	
 //		System.out.println("Vel: " + values[0] + " pos: " + values[3]);
-		System.out.println("distToStop: " + distToStop(values[0]) + " position: " + position + " state_: " + state_ + " vel: " + velocity);
+		System.out.println("distToStop: " + distToStop(Drive.avgLinearRate()) + " position: " + position + " state_: " + state_ + " vel: " + velocity);
 	
 		idealPosition += velocity * kDt;
 	
-		linearVelocity.setSetpoint(velocity);
-		linearVelocity.calculate(values[0], false);
-		setDrive(linearVelocity.getOutput());
+		Drive.linearVelocity.setSetpoint(velocity);
+		Drive.linearVelocity.calculate(Drive.avgLinearRate(), false);
+		Drive.setDrive(Drive.linearVelocity.getOutput());
 	}
 	
 	@Override
 	public void stop() {
-		setDrive(0.0);
+		Drive.setDrive(0.0);
 	}
 	
 	private double distToStop(double vel){
@@ -90,6 +92,11 @@ public class DriveProfilerCommand extends Drive implements SubActor{
 	
 	public String toString(){
 		return "Drive Profiler Command";
+	}
+
+	@Override
+	public boolean isDone() {
+		return done;
 	}
 
 }
