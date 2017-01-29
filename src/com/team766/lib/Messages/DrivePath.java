@@ -1,6 +1,7 @@
 package com.team766.lib.Messages;
 
-import trajectory.AutoPaths;
+import com.team766.lib.AutoPaths;
+
 import trajectory.Path;
 import lib.Message;
 

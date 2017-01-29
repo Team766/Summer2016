@@ -5,8 +5,8 @@ import lib.ConstantsFileReader;
 import lib.HTTPServer;
 import lib.LogFactory;
 import lib.Scheduler;
-import trajectory.AutoPaths;
 
+import com.team766.lib.AutoPaths;
 import com.team766.lib.CommandBase;
 import com.team766.robot.Actors.OperatorControl;
 import com.team766.robot.Actors.Vision;
